@@ -13,9 +13,9 @@ function TableHeader<T> ({ table }: Props<T>) {
   const { classes } = useStyles(
     {},
     {
-        name: 'datagrid-header',
+      name: 'datagrid-header'
     }
-);
+  )
   const headerGroups = table.getHeaderGroups()
   return (
     <thead>

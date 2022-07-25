@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   LoadingOverlay,
   ScrollArea,
-  Table as MantineTable,
-  Button
+  Table as MantineTable
 } from '@mantine/core'
 import {
   getCoreRowModel,
@@ -18,8 +17,6 @@ import {
 import { DataTableProps } from './Datagrid.types'
 
 import TableHeader from './components/TableHeader'
-
-
 
 // import SimpleTableHeader from './TableHeader'
 // import SimpleTableBody from './TableBody'
@@ -41,7 +38,7 @@ export function Datagrid<T> ({
   highlightOnHover = false,
   horizontalSpacing = 'xs',
   verticalSpacing = 'xs',
-  fontSize = 'sm',
+  fontSize = 'sm'
 }: DataTableProps<T>) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -49,8 +46,6 @@ export function Datagrid<T> ({
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-
-
 
   const table = useReactTable<T>({
     data,
@@ -117,7 +112,7 @@ export function Datagrid<T> ({
           horizontalSpacing={horizontalSpacing}
           verticalSpacing={verticalSpacing}
           fontSize={fontSize}
-          // className={classes.table}
+          className={classes.table}
         >
           <TableHeader table={table} />
           {/* <SimpleTableBody instance={instance} onRowClick={onRowClick} /> */}

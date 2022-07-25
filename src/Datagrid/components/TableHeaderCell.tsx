@@ -24,7 +24,7 @@ export default function TableHeaderCell<T> ({
   const { classes, cx } = useStyles(
     {},
     {
-        name: 'datagrid',
+      name: 'datagrid'
     }
   )
   const isSorted = header.column.getIsSorted()
@@ -50,7 +50,7 @@ export default function TableHeaderCell<T> ({
         align="center"
         spacing="xs"
         noWrap
-        position={isLastGroup ? 'left': 'center'}
+        position={isLastGroup ? 'left' : 'center'}
       >
         <span className={classes.slot}>
           {!header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())}
