@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LoadingOverlay,
   ScrollArea,
-  Table as MantineTable
+  Table as MantineTable,
+  Button
 } from '@mantine/core'
 import {
   getCoreRowModel,
@@ -11,31 +12,37 @@ import {
   getSortedRowModel,
   PaginationState,
   SortingState,
-  useTableInstance
+  useReactTable
 } from '@tanstack/react-table'
 
-import { DataTableProps } from '../../../typings'
-import { useReactTable } from '../../../hooks'
+import { DataTableProps } from './Datagrid.types'
 
-import SimpleTableHeader from './TableHeader'
-import SimpleTableBody from './TableBody'
-import SimplePagination from './Pagination'
-import { GlobalFilter } from './GlobalFilter'
+import TableHeader from './components/TableHeader'
 
-export function SimpleTable<T> ({
+
+
+// import SimpleTableHeader from './TableHeader'
+// import SimpleTableBody from './TableBody'
+// import SimplePagination from './Pagination'
+// import { GlobalFilter } from './GlobalFilter'
+
+export function Datagrid<T> ({
   loading = false,
+  debug = false,
   data,
-  columns: createColumns,
+  columns,
   containerProps,
-  onRowClick,
+  // onRowClick,
   withPagination = false,
-  withGlobalFilter = false
+  withGlobalFilter = false,
+  containerStyle,
+  containerRef,
+  striped = false,
+  highlightOnHover = false,
+  horizontalSpacing = 'xs',
+  verticalSpacing = 'xs',
+  fontSize = 'sm',
 }: DataTableProps<T>) {
-  const table = useReactTable<T>()
-  const { current: columns } = useRef(createColumns(table))
-  const containerRef = useRef<HTMLDivElement>()
-  const paginationRef = useRef<HTMLDivElement>(null)
-  const [tableHeight, setTableHeight] = useState(0)
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10
@@ -43,28 +50,9 @@ export function SimpleTable<T> ({
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
-  useEffect(() => {
-    if (containerRef.current) {
-      const pageHeight = window.innerHeight
 
-      const container = containerRef.current
-      const coord = container.getBoundingClientRect()
 
-      const styles = window.getComputedStyle(container)
-      const paddingTop = parseFloat(styles.getPropertyValue('padding-top'))
-      const paddingBottom = parseFloat(styles.getPropertyValue('padding-bottom'))
-
-      const pagination = paginationRef?.current
-      const paginationCoord = pagination?.getBoundingClientRect()
-      const paginationHeight = paginationCoord?.height || 0
-
-      const height = pageHeight - coord.top - paddingTop - paddingBottom - paginationHeight
-
-      setTableHeight(height)
-    }
-  }, [paginationRef])
-
-  const instance = useTableInstance(table, {
+  const table = useReactTable<T>({
     data,
     columns,
     state: {
@@ -94,26 +82,26 @@ export function SimpleTable<T> ({
     //   }
     // },
 
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true
+    debugTable: debug,
+    debugHeaders: debug,
+    debugColumns: debug
   })
 
-  const _handlePageChange = (num: number) => {
-    instance.setPageIndex(num - 1)
-  }
-  const _handlePageSizeChange = (size: number) => {
-    instance.setPageSize(size)
-  }
+  // const _handlePageChange = (num: number) => {
+  //   table.setPageIndex(num - 1)
+  // }
+  // const _handlePageSizeChange = (size: number) => {
+  //   table.setPageSize(size)
+  // }
 
   return (
     <>
-      <GlobalFilter
+      {/* <GlobalFilter
         withGlobalFilter={withGlobalFilter}
         globalFilter={globalFilter}
         onGlobalFilterChange={setGlobalFilter}
-      />
-      <SimplePagination
+      /> */}
+      {/* <SimplePagination
         ref={paginationRef}
         pagination={pagination}
         totalRows={instance.getRowModel().rows.length}
@@ -121,14 +109,21 @@ export function SimpleTable<T> ({
         onPageChange={_handlePageChange}
         onSizeChange={_handlePageSizeChange}
         withPagination={withPagination}
-      />
-      <ScrollArea style={{ width: '100%', height: tableHeight }} ref={containerRef} {...containerProps}>
-        <MantineTable>
-          <SimpleTableHeader instance={instance} />
-          <SimpleTableBody instance={instance} onRowClick={onRowClick} />
+      /> */}
+      <ScrollArea style={containerStyle} ref={containerRef} {...containerProps}>
+        <MantineTable
+          striped={striped}
+          highlightOnHover={highlightOnHover}
+          horizontalSpacing={horizontalSpacing}
+          verticalSpacing={verticalSpacing}
+          fontSize={fontSize}
+          // className={classes.table}
+        >
+          <TableHeader table={table} />
+          {/* <SimpleTableBody instance={instance} onRowClick={onRowClick} /> */}
         </MantineTable>
       </ScrollArea>
-      <SimplePagination
+      {/* <SimplePagination
         ref={paginationRef}
         pagination={pagination}
         totalRows={instance.getRowModel().rows.length}
@@ -136,7 +131,7 @@ export function SimpleTable<T> ({
         onPageChange={_handlePageChange}
         onSizeChange={_handlePageSizeChange}
         withPagination={withPagination}
-      />
+      /> */}
       <LoadingOverlay visible={loading} />
     </>
   )
