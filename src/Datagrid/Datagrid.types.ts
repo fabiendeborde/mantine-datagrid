@@ -1,4 +1,4 @@
-import { ComponentType } from 'react'
+import { ComponentType, CSSProperties, MutableRefObject } from 'react'
 import {
   ColumnDef,
   FilterFn,
@@ -8,41 +8,32 @@ import {
   Overwrite,
   Row
 } from '@tanstack/react-table'
-import { ScrollAreaProps } from '@mantine/core';
+import { MantineNumberSize, ScrollAreaProps } from '@mantine/core';
 
-export type DatagridProps = {};
-
-export type DataTableGenerics<T> = Overwrite<
-  ReactTableGenerics,
-  {
-      Row: T;
-      FilterFns: {
-          stringFilterFn: FilterFn<any>;
-      };
-  }
->;
-
-export type DataTableInstance<T = any> = TableInstance<DataTableGenerics<T>>;
-
-export type ColumnsFactory<T> = (
-  table: Table<DataTableGenerics<T>>
-) => ColumnDef<DataTableGenerics<T>>[];
+// export type DataTableGenerics<T> = Overwrite<
+//   ReactTableGenerics,
+//   {
+//       Row: T;
+//       FilterFns: {
+//           stringFilterFn: FilterFn<any>;
+//       };
+//   }
+// >;
 
 export type DataTableProps<T> = {
   loading: boolean;
-  columns: ColumnsFactory<T>;
+  debug?: boolean;
+  columns: ColumnDef<T, unknown>[];
   data: T[];
-  onRowClick?: (row: Row<DataTableGenerics<T>>) => void;
+  // onRowClick?: (row: Row<DataTableGenerics<T>>) => void;
   containerProps?: ScrollAreaProps;
   withPagination?: boolean;
   withGlobalFilter?: boolean;
+  containerStyle?: CSSProperties;
+  containerRef?: MutableRefObject<HTMLDivElement>;
+  striped?: boolean;
+  highlightOnHover?: boolean;
+  horizontalSpacing?: MantineNumberSize;
+  verticalSpacing?: MantineNumberSize;
+  fontSize?: MantineNumberSize;
 };
-
-export type DataTableFilterProps<T = any> = {
-  value: T;
-  onChange(value: T): void;
-};
-
-export type DataTableFilterComponent<T = any> = ComponentType<
-  DataTableFilterProps<T>
->;
