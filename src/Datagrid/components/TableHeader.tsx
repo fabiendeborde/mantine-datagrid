@@ -1,29 +1,31 @@
-import React from 'react'
+import { Table } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
-import { TableInstance } from '@tanstack/react-table'
 
-import { DataTableGenerics } from '../../../typings'
+import useStyles from '../Datagrid.styles'
 
-import useStyles from './SimpleTable.styles'
-import { SimpleTableHeaderCell } from './SimpleTableHeaderCell'
+import TableHeaderCell from './TableHeaderCell'
 
 type Props<T> = {
-  instance: TableInstance<DataTableGenerics<T>>
+  table: Table<T>
 }
 
-function SimpleTableHeader<T> ({ instance }: Props<T>) {
-  const { classes } = useStyles({})
-  const headerGroups = instance.getHeaderGroups()
+function TableHeader<T> ({ table }: Props<T>) {
+  const { classes } = useStyles(
+    {},
+    {
+        name: 'datagrid-header',
+    }
+);
+  const headerGroups = table.getHeaderGroups()
   return (
     <thead>
       {headerGroups.map((group, groupIndex) => (
-        <tr key={group.id} className={classes.row}>
+        <tr key={group.id} className={classes.row} role="row">
           {group.headers.map((header, headerIndex) => (
-            <SimpleTableHeaderCell<T>
-              key={header.column.id}
+            <TableHeaderCell<T>
+              key={header.id}
               index={headerIndex}
               header={header}
-              instance={instance}
               isLastGroup={
                 headerGroups.length - 1 ===
                 groupIndex
@@ -36,8 +38,8 @@ function SimpleTableHeader<T> ({ instance }: Props<T>) {
   )
 }
 
-SimpleTableHeader.propTypes = {
+TableHeader.propTypes = {
   headerGroups: PropTypes.object
 }
 
-export default SimpleTableHeader
+export default TableHeader

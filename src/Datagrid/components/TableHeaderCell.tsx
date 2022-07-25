@@ -1,32 +1,32 @@
 import { Button, Group } from '@mantine/core'
-import {
-  Header,
-  TableInstance
-} from '@tanstack/react-table'
+import { flexRender, Header } from '@tanstack/react-table'
 import {
   ArrowsDownUp,
   ArrowUp
 } from 'tabler-icons-react'
 
-import { DataTableGenerics } from '../../../typings'
-import { hasFilter } from '../utils'
+import { hasFilter } from '../../utils'
+import useStyles from '../Datagrid.styles'
 
 import { ColumnFilter } from './ColumnFilter'
-import useStyles from './SimpleTable.styles'
 
 export type DataTableHeaderProps<T> = {
     index: number;
-    instance: TableInstance<DataTableGenerics<T>>;
-    header: Header<DataTableGenerics<T>>;
+    header: Header<T, unknown>;
     isLastGroup: boolean;
 };
 
-export function SimpleTableHeaderCell<T> ({
+export default function TableHeaderCell<T> ({
   index,
   header,
   isLastGroup
 }: DataTableHeaderProps<T>) {
-  const { classes, cx } = useStyles({})
+  const { classes, cx } = useStyles(
+    {},
+    {
+        name: 'datagrid',
+    }
+  )
   const isSorted = header.column.getIsSorted()
   const canSort = isLastGroup && header.column.getCanSort()
   const canFilter =
@@ -46,9 +46,14 @@ export function SimpleTableHeaderCell<T> ({
         sort: canSort
       })}
     >
-      <Group align="center" spacing="xs" noWrap>
+      <Group
+        align="center"
+        spacing="xs"
+        noWrap
+        position={isLastGroup ? 'left': 'center'}
+      >
         <span className={classes.slot}>
-          {!header.isPlaceholder && header.renderHeader()}
+          {!header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())}
         </span>
 
         {canFilter && (
