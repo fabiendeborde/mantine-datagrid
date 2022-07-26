@@ -13,18 +13,17 @@ import {
   SortingState,
   useReactTable
 } from '@tanstack/react-table'
+import PropTypes from 'prop-types'
 
 import { DataTableProps } from './Datagrid.types'
 import useStyles from './Datagrid.styles'
+import { DEFAULT_PAGE_SIZE } from './Datagrid.constants'
 
 import TableHeader from './components/TableHeader'
 import TableBody from './components/TableBody'
+import TablePagination from './components/TablePagination'
 
-// import SimpleTableHeader from './TableHeader'
-// import SimplePagination from './Pagination'
 // import { GlobalFilter } from './GlobalFilter'
-
-const DEFAULT_PAGE_SIZE = 10
 
 export function Datagrid<T> ({
   loading = false,
@@ -35,18 +34,22 @@ export function Datagrid<T> ({
   containerProps,
   containerStyle,
   containerRef,
+  containerMaxHeight,
   withPagination = false,
+  withTopPagination = false,
+  paginationOptions,
   withGlobalFilter = false,
   striped = false,
   highlightOnHover = false,
   horizontalSpacing = 'xs',
   verticalSpacing = 'xs',
-  fontSize = 'sm'
+  fontSize = 'sm',
+  paginationRef
 }: DataTableProps<T>) {
   const { classes } = useStyles({})
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: withPagination ? DEFAULT_PAGE_SIZE : data.length
+    pageIndex: paginationOptions?.initialPageIndex || 0,
+    pageSize: withPagination ? paginationOptions?.initialPageSize || DEFAULT_PAGE_SIZE : data.length
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -86,12 +89,24 @@ export function Datagrid<T> ({
     debugColumns: debug
   })
 
-  // const _handlePageChange = (num: number) => {
-  //   table.setPageIndex(num - 1)
-  // }
-  // const _handlePageSizeChange = (size: number) => {
-  //   table.setPageSize(size)
-  // }
+  const _handlePageChange = (num: number) => {
+    table.setPageIndex(num - 1)
+  }
+  const _handlePageSizeChange = (size: number) => {
+    table.setPageSize(size)
+  }
+
+  const Pagination = () => (
+    <TablePagination
+      ref={paginationRef}
+      pagination={pagination}
+      totalRows={data?.length || 0}
+      totalPages={table.getPageCount()}
+      onPageChange={_handlePageChange}
+      onSizeChange={_handlePageSizeChange}
+      paginationOptions={paginationOptions}
+    />
+  )
 
   return (
     <>
@@ -100,16 +115,15 @@ export function Datagrid<T> ({
         globalFilter={globalFilter}
         onGlobalFilterChange={setGlobalFilter}
       /> */}
-      {/* <SimplePagination
-        ref={paginationRef}
-        pagination={pagination}
-        totalRows={instance.getRowModel().rows.length}
-        totalPages={instance.getPageCount()}
-        onPageChange={_handlePageChange}
-        onSizeChange={_handlePageSizeChange}
-        withPagination={withPagination}
-      /> */}
-      <ScrollArea style={containerStyle} ref={containerRef} {...containerProps}>
+
+      { withTopPagination && <Pagination /> }
+
+      <ScrollArea.Autosize
+        style={containerStyle}
+        viewportRef={containerRef}
+        maxHeight={containerMaxHeight}
+        {...containerProps}
+      >
         <MantineTable
           striped={striped}
           highlightOnHover={highlightOnHover}
@@ -121,17 +135,33 @@ export function Datagrid<T> ({
           <TableHeader table={table} />
           <TableBody table={table} onRowClick={onRowClick} />
         </MantineTable>
-      </ScrollArea>
-      {/* <SimplePagination
-        ref={paginationRef}
-        pagination={pagination}
-        totalRows={instance.getRowModel().rows.length}
-        totalPages={instance.getPageCount()}
-        onPageChange={_handlePageChange}
-        onSizeChange={_handlePageSizeChange}
-        withPagination={withPagination}
-      /> */}
+      </ScrollArea.Autosize>
+
+      { withPagination && <Pagination /> }
+
       <LoadingOverlay visible={loading} />
     </>
   )
+}
+
+Datagrid.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  debug: PropTypes.bool,
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  onRowClick: PropTypes.func,
+  containerProps: PropTypes.object,
+  containerStyle: PropTypes.object,
+  containerRef: PropTypes.object,
+  containerMaxHeight: PropTypes.number,
+  withPagination: PropTypes.bool,
+  withTopPagination: PropTypes.bool,
+  paginationOptions: PropTypes.object,
+  withGlobalFilter: PropTypes.bool,
+  striped: PropTypes.bool,
+  highlightOnHover: PropTypes.bool,
+  horizontalSpacing: PropTypes.string,
+  verticalSpacing: PropTypes.string,
+  fontSize: PropTypes.string,
+  paginationRef: PropTypes.object
 }
