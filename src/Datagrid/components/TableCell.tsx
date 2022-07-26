@@ -1,12 +1,12 @@
 import { Cell } from '@tanstack/react-table'
-import { DataTableGenerics } from '../../../typings'
-import useStyles from './SimpleTable.styles'
+
+import useStyles from '../Datagrid.styles'
 
 export type DataTableCellProps<T> = {
-  cell: Cell<DataTableGenerics<T>>;
+  cell: Cell<T, unknown>;
 };
 
-export function SimpleTableCell<T> ({ cell }: DataTableCellProps<T>) {
+export default function TableCell<T> ({ cell }: DataTableCellProps<T>) {
   const { classes } = useStyles({})
 
   return (
@@ -17,7 +17,7 @@ export function SimpleTableCell<T> ({ cell }: DataTableCellProps<T>) {
       }}
       className={classes.cell}
     >
-      <span className={classes.slot}>{cell.renderCell()}</span>
+      <span className={classes.slot}>{cell.renderValue()}</span>
     </td>
   )
 }

@@ -2,17 +2,17 @@ import React from 'react'
 import { Row } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
-import { DataTableGenerics, DataTableProps } from '../../../typings'
+import useStyles from '../Datagrid.styles'
+import { DataTableProps } from '../Datagrid.types'
 
-import { SimpleTableCell } from './SimpleTableCell'
-import useStyles from './SimpleTable.styles'
+import TableCell from './TableCell'
 
 type Props<T> = {
-  row: Row<DataTableGenerics<T>>;
+  row: Row<T>;
   onRowClick: DataTableProps<T>['onRowClick'];
 }
 
-function SimpleTableRow<T> ({ row, onRowClick }: Props<T>) {
+function TableRow<T> ({ row, onRowClick }: Props<T>) {
   const { classes } = useStyles({ rowClickHandler: !!onRowClick })
 
   const _handleRowClick = () => {
@@ -21,15 +21,15 @@ function SimpleTableRow<T> ({ row, onRowClick }: Props<T>) {
   return (
     <tr key={row.id} className={classes.row} onClick={_handleRowClick}>
       {row.getVisibleCells().map((cell) => (
-        <SimpleTableCell key={cell.id} cell={cell} />
+        <TableCell key={cell.id} cell={cell} />
       ))}
     </tr>
   )
 }
 
-SimpleTableRow.propTypes = {
+TableRow.propTypes = {
   row: PropTypes.object.isRequired,
   onRowClick: PropTypes.func.isRequired
 }
 
-export default SimpleTableRow
+export default TableRow
