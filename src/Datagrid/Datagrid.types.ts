@@ -8,7 +8,7 @@ import {
   Overwrite,
   Row
 } from '@tanstack/react-table'
-import { MantineNumberSize, ScrollAreaProps } from '@mantine/core';
+import { MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 // export type DataTableGenerics<T> = Overwrite<
 //   ReactTableGenerics,
@@ -25,7 +25,7 @@ export type DataTableProps<T> = {
   debug?: boolean;
   columns: ColumnDef<T, unknown>[];
   data: T[];
-  // onRowClick?: (row: Row<DataTableGenerics<T>>) => void;
+  onRowClick?: (row: T) => void;
   containerProps?: ScrollAreaProps;
   withPagination?: boolean;
   withGlobalFilter?: boolean;
