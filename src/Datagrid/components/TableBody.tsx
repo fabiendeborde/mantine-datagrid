@@ -1,22 +1,22 @@
 import React from 'react'
-import { TableInstance } from '@tanstack/react-table'
+import { Table } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
-import { DataTableGenerics, DataTableProps } from '../../../typings'
+import { DataTableProps } from '../Datagrid.types'
 
-import SimpleTableRow from './SimpleTableRow'
+import TableRow from './TableRow'
 
 type Props<T> = {
-  instance: TableInstance<DataTableGenerics<T>>;
-  onRowClick: DataTableProps<T>['onRowClick'];
+  table: Table<T>;
+  onRowClick?: DataTableProps<T>['onRowClick'];
 }
 
-function SimpleTableBody<T> ({ instance, onRowClick }: Props<T>) {
-  const rows = instance.getRowModel().rows
+function TableBody<T> ({ table, onRowClick }: Props<T>) {
+  const rows = table?.getRowModel()?.rows
   return (
     <tbody>
-      {rows.map(row => (
-        <SimpleTableRow<T>
+      {rows?.map(row => (
+        <TableRow<T>
           key={row.id}
           row={row}
           onRowClick={onRowClick}
@@ -26,9 +26,9 @@ function SimpleTableBody<T> ({ instance, onRowClick }: Props<T>) {
   )
 }
 
-SimpleTableBody.propTypes = {
-  instance: PropTypes.object,
+TableBody.propTypes = {
+  table: PropTypes.object,
   onRowClick: PropTypes.func
 }
 
-export default SimpleTableBody
+export default TableBody
