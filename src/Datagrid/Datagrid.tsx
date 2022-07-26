@@ -15,13 +15,16 @@ import {
 } from '@tanstack/react-table'
 
 import { DataTableProps } from './Datagrid.types'
+import useStyles from './Datagrid.styles'
 
 import TableHeader from './components/TableHeader'
+import TableBody from './components/TableBody'
 
 // import SimpleTableHeader from './TableHeader'
-// import SimpleTableBody from './TableBody'
 // import SimplePagination from './Pagination'
 // import { GlobalFilter } from './GlobalFilter'
+
+const DEFAULT_PAGE_SIZE = 10
 
 export function Datagrid<T> ({
   loading = false,
@@ -29,7 +32,7 @@ export function Datagrid<T> ({
   data,
   columns,
   containerProps,
-  // onRowClick,
+  onRowClick,
   withPagination = false,
   withGlobalFilter = false,
   containerStyle,
@@ -40,9 +43,10 @@ export function Datagrid<T> ({
   verticalSpacing = 'xs',
   fontSize = 'sm'
 }: DataTableProps<T>) {
+  const { classes } = useStyles({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10
+    pageSize: withPagination ? DEFAULT_PAGE_SIZE : data.length
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -55,7 +59,7 @@ export function Datagrid<T> ({
       sorting,
       globalFilter
     },
-    onPaginationChange: setPagination,
+    onPaginationChange: withPagination ? setPagination : undefined,
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -115,7 +119,7 @@ export function Datagrid<T> ({
           className={classes.table}
         >
           <TableHeader table={table} />
-          {/* <SimpleTableBody instance={instance} onRowClick={onRowClick} /> */}
+          <TableBody table={table} onRowClick={onRowClick} />
         </MantineTable>
       </ScrollArea>
       {/* <SimplePagination
