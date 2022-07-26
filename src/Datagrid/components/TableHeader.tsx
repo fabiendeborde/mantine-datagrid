@@ -18,7 +18,7 @@ function TableHeader<T> ({ table }: Props<T>) {
   )
   const headerGroups = table.getHeaderGroups()
   return (
-    <thead>
+    <thead className={classes.header}>
       {headerGroups.map((group, groupIndex) => (
         <tr key={group.id} className={classes.row} role="row">
           {group.headers.map((header, headerIndex) => (

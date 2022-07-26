@@ -40,7 +40,7 @@ export default function TableHeaderCell<T> ({
         width: header.column.getSize() * header.colSpan
       }}
       colSpan={header.colSpan}
-      className={cx(classes.header, {
+      className={cx(classes.headerCell, {
         lastGroup: isLastGroup,
         first: index === 0,
         sort: canSort
