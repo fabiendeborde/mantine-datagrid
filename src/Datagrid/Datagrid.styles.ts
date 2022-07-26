@@ -1,7 +1,8 @@
-import { createStyles } from '@mantine/core'
+import { createStyles, DefaultMantineColor } from '@mantine/core'
 
 type StyleProps = {
-  rowClickHandler?: boolean
+  rowClickHandler?: boolean;
+  paginationColor?: DefaultMantineColor;
 }
 
 export default createStyles((theme, props?: StyleProps) => ({
@@ -42,6 +43,6 @@ export default createStyles((theme, props?: StyleProps) => ({
   paginationDivider: {
     height: 24,
     alignSelf: 'center',
-    borderLeftColor: theme.colors.teal[8]
+    borderLeftColor: props?.paginationColor ? theme.colors?.[props?.paginationColor][8] : '#ced4da'
   }
 }))
