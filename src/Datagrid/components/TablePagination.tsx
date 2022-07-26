@@ -1,27 +1,33 @@
 import React from 'react'
-import { Divider, Group, Pagination as MantinePagination, Select, Text } from '@mantine/core'
+import { DefaultMantineColor, Divider, Group, GroupPosition, Pagination as MantinePagination, Select, Text } from '@mantine/core'
 import { PaginationState } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
+import { DEFAULT_PAGE_SIZES } from '../Datagrid.constants'
 
 type Props = {
   pagination: PaginationState;
-  withPagination: boolean;
   onPageChange: (page: number) => void;
   onSizeChange: (page: number) => void;
   totalRows: number;
   totalPages: number;
+  paginationOptions?: {
+    pageSizes?: string[];
+    position?: GroupPosition;
+    color?: DefaultMantineColor;
+  };
 }
 
-const pageSizeOptions = ['10', '25', '50', '100']
-
-const Pagination = React.forwardRef<HTMLDivElement, Props>((
-  { pagination, withPagination, totalRows, totalPages, onPageChange, onSizeChange },
+const TablePagination = React.forwardRef<HTMLDivElement, Props>((
+  { pagination, totalRows, totalPages, onPageChange, onSizeChange, paginationOptions },
   ref: React.ForwardedRef<HTMLDivElement>
 ) => {
-  const { classes } = useStyles({})
-  if (!withPagination) return null
+  const color = paginationOptions?.color || 'blue'
+  const position = paginationOptions?.position || 'right'
+  const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
+
+  const { classes } = useStyles({ paginationColor: color })
 
   const _handlePageSizeChange = (value: string) => {
     onSizeChange(Number(value))
@@ -36,12 +42,12 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   }
 
   return (
-    <Group position="right" align="center" ref={ref} py="xs">
+    <Group position={position} align="center" ref={ref} py="xs">
       <Text size="sm">Rows per page: </Text>
       <Select
         className={classes.pageSize}
         variant="filled"
-        data={pageSizeOptions}
+        data={pageSizes}
         mb={0}
         value={pagination.pageSize + ''}
         onChange={_handlePageSizeChange}
@@ -57,24 +63,25 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
         onChange={onPageChange}
         py="md"
         position="center"
-        color="teal"
+        color={color}
       />
     </Group>
   )
 })
 
-Pagination.displayName = 'Pagination'
+TablePagination.displayName = 'TablePagination'
 
-Pagination.propTypes = {
+TablePagination.propTypes = {
   pagination: PropTypes.shape({
     pageIndex: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired
   }).isRequired,
-  withPagination: PropTypes.bool.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   totalRows: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired
+  totalPages: PropTypes.number.isRequired,
+  position: PropTypes.oneOf(['right', 'center', 'left', 'apart']),
+  color: PropTypes.string
 }
 
-export default Pagination
+export default TablePagination
