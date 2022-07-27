@@ -2572,17 +2572,17 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@tanstack/react-table@^8.2.6":
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.5.0.tgz#996c02ef4d2ccab6dca593c1aa796221f9773fa0"
-  integrity sha512-WXzNd2HzoyQ3Dv2qiWrKJ0andJrxtghddNV1M85uQGyi2lGMpBnh2OLgafPHiVNHj3EseHFv+CED5unuX2Sv5Q==
+"@tanstack/react-table@^8.5.1":
+  version "8.5.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.5.1.tgz#1ab6b903cc81b35dcef31ead6c89c82948e52eee"
+  integrity sha512-X/lzewuczP0VUC4USs/yuJrM3gu3hIwVdJlRwudmhse6snIJpJKd1gpH+/RHwIQsiC/s3SY4qvU19qI+Z650cw==
   dependencies:
-    "@tanstack/table-core" "8.5.0"
+    "@tanstack/table-core" "8.5.1"
 
-"@tanstack/table-core@8.5.0":
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.5.0.tgz#ccc52175ff4510ebe5ae0514131bdcd2d17b9ab2"
-  integrity sha512-YqyY28DyYQy5tmhmR9BYilVvszJn5ivHHxtpFIRrtxyoJIRLFske6jV8+Pz2zV8wkucfTBubqpp/IqhYWoJ4fA==
+"@tanstack/table-core@8.5.1":
+  version "8.5.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.5.1.tgz#efabcd1f86ee3891bfc3d3046eedbe9155e51bd6"
+  integrity sha512-tgBd+jteQocpsRms6AcQFrU+/YY8FIZ+4prUeYHyRLHlvOpv27Bi9kufMSbg9vbuUkqmCj/lt89fEp5bK5mQ2Q==
 
 "@testing-library/dom@^8.3.0", "@testing-library/dom@^8.5.0":
   version "8.16.0"
