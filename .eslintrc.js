@@ -4,7 +4,12 @@ module.exports = {
     es2021: true,
     jest: true
   },
-  extends: ['plugin:react/recommended', 'standard', 'plugin:@typescript-eslint/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'plugin:react/recommended',
+    'standard',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:storybook/recommended'
+  ],
   settings: {
     react: {
       version: 'detect'
@@ -20,13 +25,14 @@ module.exports = {
   },
   plugins: [
     'react',
-    '@typescript-eslint',
-    'plugin:storybook/recommended'
+    '@typescript-eslint'
   ],
   rules: {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+    indent: 'off',
+    '@typescript-eslint/indent': ['error', 2]
   }
 }

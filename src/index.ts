@@ -1,1 +1,2 @@
-export { default as Datagrid } from './Datagrid/Datagrid'
+export * from '@tanstack/react-table'
+export * from './Datagrid/Datagrid'
