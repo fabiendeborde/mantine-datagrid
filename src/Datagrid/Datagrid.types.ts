@@ -1,26 +1,8 @@
-import { ComponentType, CSSProperties, MutableRefObject } from 'react'
-import {
-  ColumnDef,
-  FilterFn,
-  Table,
-  // ReactTableGenerics,
-  // TableInstance,
-  Overwrite,
-  Row
-} from '@tanstack/react-table'
+import { CSSProperties, MutableRefObject } from 'react'
+import { ColumnDef } from '@tanstack/react-table'
 import { DefaultMantineColor, GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
-// export type DataTableGenerics<T> = Overwrite<
-//   ReactTableGenerics,
-//   {
-//       Row: T;
-//       FilterFns: {
-//           stringFilterFn: FilterFn<any>;
-//       };
-//   }
-// >;
-
-export type DataTableProps<T> = {
+export type DataGridProps<T> = {
   /** Show a loader on loading */
   loading: boolean;
   /** Enable React Table debug logging */
