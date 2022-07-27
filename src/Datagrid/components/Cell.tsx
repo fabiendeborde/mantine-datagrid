@@ -2,11 +2,11 @@ import { Cell } from '@tanstack/react-table'
 
 import useStyles from '../Datagrid.styles'
 
-export type DataTableCellProps<T> = {
+type Props<T> = {
   cell: Cell<T, unknown>;
 };
 
-export default function TableCell<T> ({ cell }: DataTableCellProps<T>) {
+export default function Cell<T> ({ cell }: Props<T>) {
   const { classes } = useStyles({})
 
   return (
@@ -17,7 +17,7 @@ export default function TableCell<T> ({ cell }: DataTableCellProps<T>) {
       }}
       className={classes.cell}
     >
-      <span className={classes.slot}>{cell.renderValue()}</span>
+      <span className={classes.slot}>{ cell.getValue() as string}</span>
     </td>
   )
 }

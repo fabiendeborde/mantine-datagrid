@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
 
-import TableHeaderCell from './TableHeaderCell'
+import HeaderCell from './HeaderCell'
 
 type Props<T> = {
   table: Table<T>
 }
 
-function TableHeader<T> ({ table }: Props<T>) {
+function Header<T> ({ table }: Props<T>) {
   const { classes } = useStyles(
     {},
     {
@@ -22,7 +22,7 @@ function TableHeader<T> ({ table }: Props<T>) {
       {headerGroups.map((group, groupIndex) => (
         <tr key={group.id} className={classes.row} role="row">
           {group.headers.map((header, headerIndex) => (
-            <TableHeaderCell<T>
+            <HeaderCell<T>
               key={header.id}
               index={headerIndex}
               header={header}
@@ -38,8 +38,8 @@ function TableHeader<T> ({ table }: Props<T>) {
   )
 }
 
-TableHeader.propTypes = {
+Header.propTypes = {
   headerGroups: PropTypes.object
 }
 
-export default TableHeader
+export default Header

@@ -19,7 +19,7 @@ type Props = {
   };
 }
 
-const TablePagination = React.forwardRef<HTMLDivElement, Props>((
+const Pagination = React.forwardRef<HTMLDivElement, Props>((
   { pagination, totalRows, totalPages, onPageChange, onSizeChange, paginationOptions },
   ref: React.ForwardedRef<HTMLDivElement>
 ) => {
@@ -69,9 +69,9 @@ const TablePagination = React.forwardRef<HTMLDivElement, Props>((
   )
 })
 
-TablePagination.displayName = 'TablePagination'
+Pagination.displayName = 'Pagination'
 
-TablePagination.propTypes = {
+Pagination.propTypes = {
   pagination: PropTypes.shape({
     pageIndex: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired
@@ -79,9 +79,9 @@ TablePagination.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   totalRows: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  position: PropTypes.oneOf(['right', 'center', 'left', 'apart']),
-  color: PropTypes.string
+  totalPages: PropTypes.number.isRequired
+  // position: PropTypes.oneOf(['right', 'center', 'left', 'apart']),
+  // color: PropTypes.string
 }
 
-export default TablePagination
+export default Pagination

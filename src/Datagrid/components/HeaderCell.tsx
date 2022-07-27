@@ -10,17 +10,17 @@ import useStyles from '../Datagrid.styles'
 
 import { ColumnFilter } from './ColumnFilter'
 
-export type DataTableHeaderProps<T> = {
-    index: number;
-    header: Header<T, unknown>;
-    isLastGroup: boolean;
+type Props<T> = {
+  index: number;
+  header: Header<T, unknown>;
+  isLastGroup: boolean;
 };
 
-export default function TableHeaderCell<T> ({
+export default function HeaderCell<T> ({
   index,
   header,
   isLastGroup
-}: DataTableHeaderProps<T>) {
+}: Props<T>) {
   const { classes, cx } = useStyles(
     {},
     {
