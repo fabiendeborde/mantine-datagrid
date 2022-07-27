@@ -7,8 +7,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'standard',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:storybook/recommended'
+    'plugin:@typescript-eslint/recommended'
   ],
   settings: {
     react: {
