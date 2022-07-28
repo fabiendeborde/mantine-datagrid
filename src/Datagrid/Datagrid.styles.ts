@@ -39,7 +39,7 @@ export default createStyles((theme, props?: StyleProps) => ({
     whiteSpace: 'nowrap'
   },
   pageSize: {
-    width: 72
+    width: 80
   },
   paginationDivider: {
     height: 24,
