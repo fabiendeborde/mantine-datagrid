@@ -67,4 +67,8 @@ export type DataGridProps<T> = {
   withRowSelection?: boolean;
   /** Callback on row selection (with selection state) */
   onRowSelection?: (selection: RowSelectionState) => void;
+  /** Enable Virtualized Rows */
+  withVirtualizedRows?: boolean;
+  /** The amount of items to load both behind and ahead of the current window range */
+  virtualizedRowOverscan?: number;
 };
