@@ -20,7 +20,8 @@ export default createStyles((theme, props?: StyleProps) => ({
   header: {
     position: 'sticky',
     top: 0,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2]
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[2],
+    zIndex: 999
   },
   headerCell: {
     '&:hover': {
