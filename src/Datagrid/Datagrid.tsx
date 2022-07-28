@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   LoadingOverlay,
   ScrollArea,
@@ -10,6 +10,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   PaginationState,
+  RowSelectionState,
   SortingState,
   useReactTable
 } from '@tanstack/react-table'
@@ -37,13 +38,15 @@ export function Datagrid<T> ({
   withPagination = false,
   withTopPagination = false,
   paginationOptions,
+  paginationRef,
   withGlobalFilter = false,
   striped = false,
   highlightOnHover = false,
   horizontalSpacing = 'xs',
   verticalSpacing = 'xs',
   fontSize = 'sm',
-  paginationRef
+  withRowSelection = false,
+  onRowSelection
 }: DataGridProps<T>) {
   const { classes } = useStyles({})
   const [pagination, setPagination] = useState<PaginationState>({
@@ -52,6 +55,11 @@ export function Datagrid<T> ({
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
+  useEffect(() => {
+    onRowSelection && onRowSelection(rowSelection)
+  }, [rowSelection])
 
   const table = useReactTable<T>({
     data,
@@ -59,11 +67,15 @@ export function Datagrid<T> ({
     state: {
       pagination,
       sorting,
-      globalFilter
+      globalFilter,
+      rowSelection
     },
     onPaginationChange: withPagination ? setPagination : undefined,
     onSortingChange: setSorting,
+    enableGlobalFilter: withGlobalFilter,
     onGlobalFilterChange: setGlobalFilter,
+    enableRowSelection: withRowSelection,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -94,14 +106,12 @@ export function Datagrid<T> ({
 
   return (
     <>
-      {
-        withGlobalFilter && (
-          <GlobalFilter
-            globalFilter={globalFilter}
-            onGlobalFilterChange={setGlobalFilter}
-          />
-        )
-      }
+      { withGlobalFilter && (
+        <GlobalFilter
+          globalFilter={globalFilter}
+          onGlobalFilterChange={setGlobalFilter}
+        />
+      )}
 
       { withTopPagination && <GridPagination /> }
 
