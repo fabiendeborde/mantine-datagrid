@@ -29,10 +29,11 @@ export default function HeaderCell<T> ({
   )
   const isSorted = header.column.getIsSorted()
   const canSort = isLastGroup && header.column.getCanSort()
-  const canFilter =
-        isLastGroup &&
-        header.column.getCanFilter() &&
-        hasFilter(header.column.columnDef.filterFn)
+  const canFilter = isLastGroup && header.column.getCanFilter()
+
+  // console.log('column', header)
+  // console.log('getCanFilter', header.id, header.column.getCanFilter())
+  // console.log('hasFilter', hasFilter(header.column.columnDef.filterFn))
 
   return (
     <th
