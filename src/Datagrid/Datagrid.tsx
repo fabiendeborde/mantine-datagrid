@@ -84,7 +84,7 @@ export function Datagrid<T> ({
     <Pagination
       ref={paginationRef}
       pagination={pagination}
-      totalRows={data?.length || 0}
+      totalRows={table.getFilteredRowModel()?.rows?.length || 0}
       totalPages={table.getPageCount()}
       onPageChange={_handlePageChange}
       onSizeChange={_handlePageSizeChange}
