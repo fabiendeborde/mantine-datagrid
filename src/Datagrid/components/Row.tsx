@@ -1,5 +1,6 @@
 import { Row as TableRow } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
+import { MouseEvent } from 'react'
 
 import useStyles from '../Datagrid.styles'
 import { DataGridProps } from '../Datagrid.types'
@@ -11,11 +12,17 @@ type Props<T> = {
   onRowClick: DataGridProps<T>['onRowClick'];
 }
 
+const ROW_CLICK_DENY_LIST = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A']
+
 function Row<T> ({ row, onRowClick }: Props<T>) {
   const { classes } = useStyles({ rowClickHandler: !!onRowClick })
 
-  const _handleRowClick = () => {
-    onRowClick && onRowClick(row.original)
+  const _handleRowClick = (e: MouseEvent) => {
+    e.stopPropagation()
+    const target = e.target as HTMLElement
+    if (!ROW_CLICK_DENY_LIST.includes(target.nodeName)) {
+      onRowClick && onRowClick(row.original)
+    }
   }
   return (
     <tr key={row.id} className={classes.row} onClick={_handleRowClick}>

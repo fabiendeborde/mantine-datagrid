@@ -1,4 +1,5 @@
-import { Cell } from '@tanstack/react-table'
+// import { ReactNode } from 'react'
+import { Cell, flexRender } from '@tanstack/react-table'
 
 import useStyles from '../Datagrid.styles'
 
@@ -8,7 +9,6 @@ type Props<T> = {
 
 export default function Cell<T> ({ cell }: Props<T>) {
   const { classes } = useStyles({})
-
   return (
     <td
       key={cell.id}
@@ -17,7 +17,9 @@ export default function Cell<T> ({ cell }: Props<T>) {
       }}
       className={classes.cell}
     >
-      <span className={classes.slot}>{ cell.getValue() as string}</span>
+      <span className={classes.slot}>
+        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+      </span>
     </td>
   )
 }

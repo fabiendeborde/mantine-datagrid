@@ -1,5 +1,5 @@
 import { CSSProperties, MutableRefObject } from 'react'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, RowSelectionState } from '@tanstack/react-table'
 import { DefaultMantineColor, GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 export type DataGridProps<T> = {
@@ -45,6 +45,8 @@ export type DataGridProps<T> = {
     /** Pagination focus / active color */
     color?: DefaultMantineColor;
   };
+  /** Table pagination ref */
+  paginationRef?: MutableRefObject<HTMLDivElement>;
   /** Callback on page index change (with new page index) */
   onPageChange?: (page: number) => void;
   /** Callback on page size change (with new page size) */
@@ -61,6 +63,8 @@ export type DataGridProps<T> = {
   verticalSpacing?: MantineNumberSize;
   /** Sets font size of all text inside table */
   fontSize?: MantineNumberSize;
-  /** Table pagination ref */
-  paginationRef?: MutableRefObject<HTMLDivElement>;
+  /** Enable Row selection */
+  withRowSelection?: boolean;
+  /** Callback on row selection (with selection state) */
+  onRowSelection?: (selection: RowSelectionState) => void;
 };
