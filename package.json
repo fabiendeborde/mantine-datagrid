@@ -32,8 +32,6 @@
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
-    "@mantine/core": "^5.0.0",
-    "@mantine/hooks": "^5.0.0",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.3",
@@ -65,13 +63,12 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "@mantine/core": "5",
-    "@mantine/hooks": "5",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "tabler-icons-react": ">=1.50.0"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.5.1"
+    "@tanstack/react-table": "^8.5.1",
+    "react-virtual": "^2.10.4"
   }
 }
