@@ -17,9 +17,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:ts": "tsc --noEmit",
-    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
   },
   "author": "Fabien Deborde<fabien.webdev@gmail.com>",
   "repository": "https://github.com/FabienDeborde/mantine-datagrid.git",
@@ -34,17 +32,11 @@
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@mantine/core": "^5.0.0",
+    "@mantine/hooks": "^5.0.0",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.3",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-interactions": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack4": "^6.5.9",
-    "@storybook/manager-webpack4": "^6.5.9",
-    "@storybook/react": "^6.5.9",
-    "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.3",
@@ -63,6 +55,7 @@
     "eslint-plugin-storybook": "^0.6.1",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
+    "react": "18.2.0",
     "react-dom": "18.2.0",
     "rollup": "^2.76.0",
     "rollup-plugin-dts": "^4.2.2",
@@ -75,9 +68,10 @@
     "@mantine/core": "5",
     "@mantine/hooks": "5",
     "react": ">=18.2.0",
+    "react-dom": ">=18.2.0",
     "tabler-icons-react": ">=1.50.0"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.2.6"
+    "@tanstack/react-table": "^8.5.1"
   }
 }

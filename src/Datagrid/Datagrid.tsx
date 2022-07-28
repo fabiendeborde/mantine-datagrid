@@ -15,15 +15,14 @@ import {
 } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
-import { DataTableProps } from './Datagrid.types'
-import useStyles from './Datagrid.styles'
+import { DataGridProps } from './Datagrid.types'
 import { DEFAULT_PAGE_SIZE } from './Datagrid.constants'
+import useStyles from './Datagrid.styles'
 
-import TableHeader from './components/TableHeader'
-import TableBody from './components/TableBody'
-import TablePagination from './components/TablePagination'
-
-// import { GlobalFilter } from './GlobalFilter'
+import GridHeader from './components/Header'
+import GridBody from './components/Body'
+import Pagination from './components/Pagination'
+import GlobalFilter from './components/GlobalFilter'
 
 export function Datagrid<T> ({
   loading = false,
@@ -45,7 +44,7 @@ export function Datagrid<T> ({
   verticalSpacing = 'xs',
   fontSize = 'sm',
   paginationRef
-}: DataTableProps<T>) {
+}: DataGridProps<T>) {
   const { classes } = useStyles({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: paginationOptions?.initialPageIndex || 0,
@@ -69,21 +68,6 @@ export function Datagrid<T> ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-
-    // onColumnSizingInfoChange (updater) {
-    //   instance.setState((last) => ({
-    //     ...last,
-    //     columnSizingInfo:
-    //                 typeof updater === 'function'
-    //                   ? updater(last.columnSizingInfo)
-    //                   : updater
-    //   }))
-    //   bodyRef.current?.resetAfterColumnIndex(0)
-    //   for (const ref of headerRefs.current) {
-    //     ref.resetAfterIndex(0)
-    //   }
-    // },
-
     debugTable: debug,
     debugHeaders: debug,
     debugColumns: debug
@@ -96,11 +80,11 @@ export function Datagrid<T> ({
     table.setPageSize(size)
   }
 
-  const Pagination = () => (
-    <TablePagination
+  const GridPagination = () => (
+    <Pagination
       ref={paginationRef}
       pagination={pagination}
-      totalRows={data?.length || 0}
+      totalRows={table.getFilteredRowModel()?.rows?.length || 0}
       totalPages={table.getPageCount()}
       onPageChange={_handlePageChange}
       onSizeChange={_handlePageSizeChange}
@@ -110,13 +94,16 @@ export function Datagrid<T> ({
 
   return (
     <>
-      {/* <GlobalFilter
-        withGlobalFilter={withGlobalFilter}
-        globalFilter={globalFilter}
-        onGlobalFilterChange={setGlobalFilter}
-      /> */}
+      {
+        withGlobalFilter && (
+          <GlobalFilter
+            globalFilter={globalFilter}
+            onGlobalFilterChange={setGlobalFilter}
+          />
+        )
+      }
 
-      { withTopPagination && <Pagination /> }
+      { withTopPagination && <GridPagination /> }
 
       <ScrollArea.Autosize
         style={containerStyle}
@@ -132,12 +119,12 @@ export function Datagrid<T> ({
           fontSize={fontSize}
           className={classes.table}
         >
-          <TableHeader table={table} />
-          <TableBody table={table} onRowClick={onRowClick} />
+          <GridHeader table={table} />
+          <GridBody table={table} onRowClick={onRowClick} />
         </MantineTable>
       </ScrollArea.Autosize>
 
-      { withPagination && <Pagination /> }
+      { withPagination && <GridPagination /> }
 
       <LoadingOverlay visible={loading} />
     </>
