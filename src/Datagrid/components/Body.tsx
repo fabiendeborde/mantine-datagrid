@@ -91,6 +91,7 @@ Body.propTypes = {
   table: PropTypes.object,
   onRowClick: PropTypes.func,
   withVirtualizedRows: PropTypes.bool,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parentRef: function (props: any, propName: string) {
     if (props.withVirtualizedRows && !props[propName]) {
       return new Error(`You need to provide a ${propName} when withVirtualizedRows is true.`)
