@@ -46,7 +46,9 @@ export function Datagrid<T> ({
   verticalSpacing = 'xs',
   fontSize = 'sm',
   withRowSelection = false,
-  onRowSelection
+  onRowSelection,
+  withVirtualizedRows = false,
+  virtualizedRowOverscan
 }: DataGridProps<T>) {
   const { classes } = useStyles({})
   const [pagination, setPagination] = useState<PaginationState>({
@@ -130,7 +132,13 @@ export function Datagrid<T> ({
           className={classes.table}
         >
           <GridHeader table={table} />
-          <GridBody table={table} onRowClick={onRowClick} />
+          <GridBody
+            table={table}
+            onRowClick={onRowClick}
+            withVirtualizedRows={withVirtualizedRows}
+            virtualizedRowOverscan={virtualizedRowOverscan}
+            parentRef={containerRef}
+          />
         </MantineTable>
       </ScrollArea.Autosize>
 
