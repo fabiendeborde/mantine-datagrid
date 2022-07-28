@@ -1,17 +1,7 @@
 import { FilterFn } from '@tanstack/react-table'
 
-export const scrollbarWidth = () => {
-  // thanks too https://davidwalsh.name/detect-scrollbar-width
-  const scrollDiv = document.createElement('div')
-  scrollDiv.setAttribute('style', 'width: 100px; height: 100px; overflow: scroll; position:absolute; top:-9999px;')
-  document.body.appendChild(scrollDiv)
-  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-  document.body.removeChild(scrollDiv)
-  return scrollbarWidth
-}
-
-export const hasFilter = (filterFn: any) => {
-  return filterFn === 'stringFilterFn'
+export const hasFilter = (filterFn: unknown) => {
+  return filterFn === 'includesString'
 }
 
 export enum StringFilter {
@@ -23,7 +13,7 @@ export enum StringFilter {
   EndsWith = 'end',
 }
 
-export const stringFilterFn: FilterFn<any> = (row, columnId, filter) => {
+export const stringFilterFn: FilterFn<unknown> = (row, columnId, filter) => {
   const rowValue = String(row.getValue(columnId)).toLowerCase()
   const op = filter.op || StringFilter.Includes
   const filterValue = String(filter.value).toLowerCase()
