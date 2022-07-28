@@ -1,6 +1,6 @@
 import { CSSProperties, MutableRefObject } from 'react'
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table'
-import { DefaultMantineColor, GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
+import { GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 export type DataGridProps<T> = {
   /** Show a loader on loading */
@@ -42,8 +42,6 @@ export type DataGridProps<T> = {
     pageSizes?: string[];
     /** Pagination position */
     position?: GroupPosition;
-    /** Pagination focus / active color */
-    color?: DefaultMantineColor;
   };
   /** Table pagination ref */
   paginationRef?: MutableRefObject<HTMLDivElement>;

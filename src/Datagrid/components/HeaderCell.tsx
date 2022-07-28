@@ -1,11 +1,10 @@
-import { Button, Group } from '@mantine/core'
+import { Button, Group, useMantineTheme } from '@mantine/core'
 import { flexRender, Header } from '@tanstack/react-table'
 import {
   ArrowsDownUp,
   ArrowUp
 } from 'tabler-icons-react'
 
-import { hasFilter } from '../../utils'
 import useStyles from '../Datagrid.styles'
 
 import { ColumnFilter } from './ColumnFilter'
@@ -21,6 +20,7 @@ export default function HeaderCell<T> ({
   header,
   isLastGroup
 }: Props<T>) {
+  const theme = useMantineTheme()
   const { classes, cx } = useStyles(
     {},
     {
@@ -62,11 +62,11 @@ export default function HeaderCell<T> ({
 
         {canSort && (
           <Button
-            variant="subtle"
+            variant={isSorted ? 'light' : 'subtle'}
+            color={isSorted ? theme.primaryColor : 'gray'}
             compact
             size="sm"
             px={0}
-            color="gray"
             style={{
               transition: 'transform 0.25s',
               transform: `rotate(${isSorted === 'asc' ? '180' : '0'}deg)`

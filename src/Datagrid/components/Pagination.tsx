@@ -1,5 +1,5 @@
 import React from 'react'
-import { DefaultMantineColor, Divider, Group, GroupPosition, Pagination as MantinePagination, Select, Text } from '@mantine/core'
+import { Divider, Group, GroupPosition, Pagination as MantinePagination, Select, Text, useMantineTheme } from '@mantine/core'
 import { PaginationState } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
@@ -15,7 +15,6 @@ type Props = {
   paginationOptions?: {
     pageSizes?: string[];
     position?: GroupPosition;
-    color?: DefaultMantineColor;
   };
 }
 
@@ -23,7 +22,8 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   { pagination, totalRows, totalPages, onPageChange, onSizeChange, paginationOptions },
   ref: React.ForwardedRef<HTMLDivElement>
 ) => {
-  const color = paginationOptions?.color || 'blue'
+  const theme = useMantineTheme()
+  const color = theme?.primaryColor || 'blue'
   const position = paginationOptions?.position || 'right'
   const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
 
