@@ -33,7 +33,6 @@ export default function HeaderCell<T> ({
 
   // console.log('column', header)
   // console.log('getCanFilter', header.id, header.column.getCanFilter())
-  // console.log('hasFilter', hasFilter(header.column.columnDef.filterFn))
 
   return (
     <th
