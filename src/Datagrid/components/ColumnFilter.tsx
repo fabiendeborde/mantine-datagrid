@@ -24,11 +24,14 @@ type FilterState = {
 export function ColumnFilter<T> ({ column }: Props<T>) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
-  const [filterOperator, setFilterOperator] = useState<StringFilter>()
-  const [filterValue, setFilterValue] = useState<unknown>()
+  const [filterState, setFilterState] = useState<FilterState>()
+  const isFiltered = column.getIsFiltered()
 
   const filterFn = column.columnDef.filterFn
-  const isFiltered = column.getIsFiltered()
+
+  // if (!isDataGridFilter(filterFn)) return null;
+
+  // const { element: Element, init } = filterFn;
 
   // console.log('column', column)
   // console.log('filterFn', filterFn)
@@ -39,30 +42,38 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
       value: ''
     }
 
-    setFilterOperator(defaultValue.operator)
-    setFilterValue(defaultValue.value)
+    setFilterState(defaultValue)
   }
   const close = () => {
-    setFilterOperator(undefined)
-    setFilterValue(undefined)
+    setFilterState(undefined)
     setOpened(false)
   }
   const valueChange = (value: unknown) => {
-    setFilterValue(value)
+    setFilterState(current => {
+      if (current) {
+        return {
+          ...current,
+          value
+        }
+      }
+    })
   }
   const operatorChange = (operator: StringFilter) => {
-    setFilterOperator(operator)
+    setFilterState(current => {
+      if (current) {
+        return {
+          ...current,
+          operator
+        }
+      }
+    })
   }
   const clear = () => {
     column.setFilterValue(undefined)
     close()
   }
   const save = () => {
-    const filter = {
-      operator: filterOperator,
-      value: filterValue
-    }
-    column.setFilterValue(filter)
+    column.setFilterValue(filterState)
     close()
   }
 
@@ -92,12 +103,12 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
                 label: label.replace(/([a-z]+)([A-Z]{1})/g, '$1 $2')
               })
             )}
-            value={filterOperator || StringFilter.Includes}
+            value={filterState?.operator || StringFilter.Includes}
             onChange={operatorChange}
           />
 
           <TextInput
-            value={filterValue as string || ''}
+            value={filterState?.value as string || ''}
             onChange={(e) => valueChange(e.target.value)}
             placeholder="Filter value..."
           />
