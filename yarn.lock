@@ -1402,7 +1402,7 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mantine/core@*":
+"@mantine/core@*", "@mantine/core@5.0.0":
   "integrity" "sha512-bhtoegMPp+7IDsuouDRjdde8pA5z+Z8cBcRhpoWXdfpA97jldHXDe2XhRpzwMzSN5f2mTQUj3ZtJG5jm4TXTUA=="
   "resolved" "https://registry.npmjs.org/@mantine/core/-/core-5.0.0.tgz"
   "version" "5.0.0"
@@ -1412,6 +1412,13 @@
     "@mantine/utils" "5.0.0"
     "@radix-ui/react-scroll-area" "1.0.0"
     "react-textarea-autosize" "8.3.4"
+
+"@mantine/dates@^5.0.0":
+  "integrity" "sha512-6Q4LOxyjKYj3/akGeYFGRJTEIRgGa9wqrXM2ihfSl7SgEn7Xxu1wfu4JGlW3VAnTmJZrYv8fsb4j/jGEwQpA0w=="
+  "resolved" "https://registry.npmjs.org/@mantine/dates/-/dates-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "@mantine/utils" "5.0.0"
 
 "@mantine/hooks@*", "@mantine/hooks@5.0.0":
   "integrity" "sha512-IKqqnukPPyBMYRKz4VIhz7hNRe3p8B7RUyvFLaWc9l69ZO/b5atNuesE1ThuMQYc7tBobQbU4myHuhQc/csyLA=="
@@ -2505,6 +2512,11 @@
     "abab" "^2.0.6"
     "whatwg-mimetype" "^3.0.0"
     "whatwg-url" "^11.0.0"
+
+"dayjs@>=1.0.0":
+  "integrity" "sha512-Zj/lPM5hOvQ1Bf7uAvewDaUcsJoI6JmNqmHhHl3nyumwe0XHwt8sWdOVAPACJzCebL8gQCi+K49w7iKWnGwX9g=="
+  "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.11.4.tgz"
+  "version" "1.11.4"
 
 "debug@^2.6.9":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
