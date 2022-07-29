@@ -1,5 +1,5 @@
-import { CSSProperties, MutableRefObject } from 'react'
-import { ColumnDef, RowSelectionState } from '@tanstack/react-table'
+import { ComponentType, CSSProperties, MutableRefObject } from 'react'
+import { ColumnDef, FilterFn, RowSelectionState } from '@tanstack/react-table'
 import { GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 export type DataGridProps<T> = {
@@ -70,3 +70,26 @@ export type DataGridProps<T> = {
   /** The amount of items to load both behind and ahead of the current window range */
   virtualizedRowOverscan?: number;
 };
+
+/** Custom filter function (take an operators enum as O & a filter value type as V) */
+export type DataGridFilterFn<O, V> = FilterFn<unknown> & {
+  /** A default filter component able to handle the <V> type */
+  filterComponent: ComponentType<DataGridFilterProps<O, V>>;
+  /** The filter default value (operator & value) */
+  initialFilter(): FilterState<O, V>;
+};
+
+/** Default filter component props (take an operators enum as O & a filter value type as V) */
+export type DataGridFilterProps<O, V> = {
+  /** The filter current value (operator & value) */
+  filterState: FilterState<O, V>;
+  /** Value change handler */
+  onValueChange(value: V): void;
+  /** Operator change handler */
+  onOperatorChange(value: O): void;
+};
+
+export type FilterState<O, V> = {
+  operator: O;
+  value: V;
+}
