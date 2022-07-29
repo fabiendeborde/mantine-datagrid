@@ -9,7 +9,7 @@ import {
 import { Column, ColumnFilter } from '@tanstack/react-table'
 import { Filter as FilterIcon } from 'tabler-icons-react'
 
-import { FilterState } from '../Datagrid.types'
+import { DataGridFilterFn, FilterState } from '../Datagrid.types'
 import { isDataGridFilter } from '../filters/utils'
 
 type Props<T> = {
@@ -30,7 +30,7 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
     }
     return null
   }
-  const { filterComponent: FilterComponent, initialFilter } = filterFn
+  const { filterComponent: FilterComponent, initialFilter } = filterFn as DataGridFilterFn<unknown, unknown>
 
   // console.log('column', column)
 
