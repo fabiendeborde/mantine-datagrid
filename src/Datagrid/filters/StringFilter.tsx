@@ -1,6 +1,6 @@
 import { Select, TextInput } from '@mantine/core'
 
-import { DataGridFilterFn, DataGridFilterProps } from '../../Datagrid.types'
+import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 
 export enum StringFilter {
   Includes = 'in',

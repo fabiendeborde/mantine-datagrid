@@ -1,7 +1,7 @@
 import { SegmentedControl } from '@mantine/core'
 
-import { DataGridFilterFn, DataGridFilterProps } from '../../Datagrid.types'
-import { DEFAULT_BOOLEAN_FILTER_OPTIONS } from '../../Datagrid.constants'
+import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
+import { DEFAULT_BOOLEAN_FILTER_OPTIONS } from '../Datagrid.constants'
 
 export enum BooleanFilter {
   Equals = 'eq',

@@ -2,7 +2,7 @@ import { Select } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
 import { Filter } from 'tabler-icons-react'
 
-import { DataGridFilterFn, DataGridFilterProps } from '../../Datagrid.types'
+import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 
 export enum DateFilter {
   Equals = 'eq',

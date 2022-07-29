@@ -1,7 +1,7 @@
 import { NumberInput, Select } from '@mantine/core'
 import { Filter } from 'tabler-icons-react'
 
-import { DataGridFilterFn, DataGridFilterProps } from '../../Datagrid.types'
+import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 
 export enum NumberFilter {
   Equals = 'eq',
