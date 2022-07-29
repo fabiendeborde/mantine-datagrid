@@ -1539,7 +1539,7 @@
   dependencies:
     lodash "^4.17.15"
 
-"@tanstack/react-table@^8.5.1":
+"@tanstack/react-table@^8.5.2":
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.5.2.tgz#1e547649b8f057eddbe769b04612914a2efa5d09"
   integrity sha512-CbNOay5FZHjU5EKiqik+Q8/gkUJfzH07KzYnnpGyqbfeocGZZckDblw7YwGMQ5/8Y0jgmobTYrMSqd27wtPdrA==
