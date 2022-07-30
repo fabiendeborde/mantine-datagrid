@@ -1,8 +1,13 @@
 import { Select } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
-import { Filter } from 'tabler-icons-react'
+import { Filter as FilterIcon } from 'tabler-icons-react'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
+
+type Filter = {
+  operator: DateFilter;
+  value: string;
+}
 
 export enum DateFilter {
   Equals = 'eq',
@@ -13,7 +18,7 @@ export enum DateFilter {
   LowerThanOrEquals = 'lte',
 }
 
-export const dateFilterFn: DataGridFilterFn<DateFilter, string> = (row, columnId, filter) => {
+export const dateFilterFn: DataGridFilterFn<any, Filter> = (row, columnId, filter) => {
   const rowValue = new Date(row.getValue(columnId))
   const op = filter.op || DateFilter.Equals
   const filterValue = new Date(filter.value)
@@ -41,7 +46,9 @@ dateFilterFn.initialFilter = () => ({
   value: ''
 })
 
-dateFilterFn.filterComponent = function ({ filterState, onValueChange, onOperatorChange }: DataGridFilterProps<DateFilter, string>) {
+dateFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGridFilterProps<Filter>) {
+  const onOperatorChange = (operator: DateFilter) => onFilterChange({ ...filterState, operator })
+  const onValueChange = (value: Date) => onFilterChange({ ...filterState, value: value?.toISOString() || '' })
   return (
     <>
       <Select
@@ -55,9 +62,9 @@ dateFilterFn.filterComponent = function ({ filterState, onValueChange, onOperato
 
       <DatePicker
         value={filterState.value ? new Date(filterState.value) : null}
-        onChange={(e) => onValueChange(e?.toISOString() || '')}
+        onChange={onValueChange}
         placeholder="Filter value"
-        rightSection={<Filter />}
+        rightSection={<FilterIcon />}
       />
     </>
   )
