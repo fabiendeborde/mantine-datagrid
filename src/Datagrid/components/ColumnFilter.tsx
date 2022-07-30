@@ -20,7 +20,7 @@ type Props<T> = {
 export function ColumnFilter<T> ({ column }: Props<T>) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
-  const [filterState, setFilterState] = useState<FilterState>({ operator: undefined, value: undefined })
+  const [filterState, setFilterState] = useState<FilterState>({ operator: undefined, value: undefined, meta: undefined })
   const isFiltered = column.getIsFiltered()
 
   const filterFn = column.columnDef.filterFn
