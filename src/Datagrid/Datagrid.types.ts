@@ -90,4 +90,5 @@ export type DataGridFilterProps<T = { operator: unknown, value: unknown }> = {
 export type FilterState = {
   operator: unknown;
   value: unknown;
+  meta?: unknown;
 }
