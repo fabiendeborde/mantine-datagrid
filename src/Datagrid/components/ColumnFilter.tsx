@@ -62,6 +62,7 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
     <Menu
       opened={opened}
       onChange={setOpened}
+      closeOnClickOutside={false}
       withinPortal
     >
       <Menu.Target>
