@@ -1,7 +1,12 @@
 import { NumberInput, Select } from '@mantine/core'
-import { Filter } from 'tabler-icons-react'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
+import { getOperatorSelectData } from './utils'
+
+type Filter = {
+  operator: NumberFilter;
+  value: number;
+}
 
 export enum NumberFilter {
   Equals = 'eq',
@@ -12,11 +17,11 @@ export enum NumberFilter {
   LowerThanOrEquals = 'lte',
 }
 
-export const numberFilterFn: DataGridFilterFn<NumberFilter, number> = (row, columnId, filter) => {
+export const numberFilterFn: DataGridFilterFn<any, Filter> = (row, columnId, filter) => {
   const rowValue = Number(row.getValue(columnId))
-  const op = filter.op || NumberFilter.Equals
+  const operator = filter.operator || NumberFilter.Equals
   const filterValue = Number(filter.value)
-  switch (op) {
+  switch (operator) {
     case NumberFilter.Equals:
       return rowValue === filterValue
     case NumberFilter.NotEquals:
@@ -38,23 +43,21 @@ numberFilterFn.initialFilter = () => ({
   operator: NumberFilter.GreaterThan,
   value: 0
 })
-numberFilterFn.filterComponent = function ({ filterState, onValueChange, onOperatorChange }: DataGridFilterProps<NumberFilter, number>) {
+numberFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGridFilterProps<Filter>) {
+  const onOperatorChange = (operator: NumberFilter) => onFilterChange({ ...filterState, operator })
+  const onValueChange = (value: number) => onFilterChange({ ...filterState, value: value || 0 })
   return (
     <>
       <Select
-        data={Object.entries(NumberFilter).map(([label, value]) => ({
-          value,
-          label
-        }))}
+        data={getOperatorSelectData(NumberFilter)}
         value={filterState.operator || NumberFilter.Equals}
         onChange={onOperatorChange}
       />
 
       <NumberInput
         value={filterState.value}
-        onChange={(e) => onValueChange(e || 0)}
+        onChange={onValueChange}
         placeholder="Filter value"
-        rightSection={<Filter />}
       />
     </>
   )

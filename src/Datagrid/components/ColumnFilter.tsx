@@ -19,59 +19,49 @@ type Props<T> = {
 export function ColumnFilter<T> ({ column }: Props<T>) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
-  const [filterState, setFilterState] = useState<FilterState<unknown, unknown>>({ operator: undefined, value: undefined })
+  const [filterState, setFilterState] = useState<FilterState>({ operator: undefined, value: undefined })
   const isFiltered = column.getIsFiltered()
 
   const filterFn = column.columnDef.filterFn
 
   if (!isDataGridFilter(filterFn)) {
     if (filterFn !== 'auto') {
-      console.warn(`Built-in filters are not supported by this library. \nYou must provide a filter function that implements 'DataGridFilterFn' type.\n (Received '${filterFn}' on column ${column.id})`)
+      console.warn(`Built-in filters are not supported by this library. \nYou must provide a filter function that implements 'DataGridFilterFn' type (or use one of the following default filters: 'stringFilterFn', 'numberFilterFn', 'booleanFilterFn', 'dateFilterFn').\n (Received '${filterFn}' on column ${column.id})`)
     }
     return null
   }
-  const { filterComponent: FilterComponent, initialFilter } = filterFn as DataGridFilterFn<unknown, unknown>
+  const { filterComponent: FilterComponent, initialFilter } = filterFn as DataGridFilterFn<T, unknown>
 
   // console.log('column', column)
 
-  const open = () => {
-    const defaultValue = column.getFilterValue() as FilterState<unknown, unknown> || initialFilter()
+  const onOpen = () => {
+    const defaultValue = column.getFilterValue() as FilterState || initialFilter()
 
     setFilterState(defaultValue)
   }
-  const close = () => {
+  const onClose = () => {
     setFilterState({ operator: undefined, value: undefined })
     setOpened(false)
   }
-  const onValueChange = (value: unknown) => {
-    setFilterState(current => {
-      return {
-        ...current,
-        value
-      }
-    })
-  }
-  const onOperatorChange = (operator: unknown) => {
-    setFilterState(current => {
-      return {
-        ...current,
-        operator
-      }
-    })
+  const onFilterChange = (value: FilterState) => {
+    setFilterState(value)
   }
   const clear = () => {
     column.setFilterValue(undefined)
-    close()
+    onClose()
   }
-  const save = () => {
+  const onSave = () => {
+    console.log('filterState', filterState)
+
     column.setFilterValue(filterState)
-    close()
+    onClose()
   }
 
   return (
     <Menu
       opened={opened}
       onChange={setOpened}
+      withinPortal
     >
       <Menu.Target>
         <Button
@@ -80,7 +70,7 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
           compact
           size="xs"
           px={2}
-          onClick={open}
+          onClick={onOpen}
         >
           <FilterIcon size={16} />
         </Button>
@@ -89,12 +79,11 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
         <Stack py="sm" px="xs">
           <FilterComponent
             filterState={filterState}
-            onValueChange={onValueChange}
-            onOperatorChange={onOperatorChange}
+            onFilterChange={onFilterChange}
           />
           <Group position="apart">
             <Button size="xs" variant='subtle' color="gray" onClick={clear}>Clear</Button>
-            <Button size="xs" onClick={save} leftIcon={<FilterIcon size={16} />}>Filter</Button>
+            <Button size="xs" onClick={onSave} leftIcon={<FilterIcon size={16} />}>Filter</Button>
           </Group>
         </Stack>
       </Menu.Dropdown>

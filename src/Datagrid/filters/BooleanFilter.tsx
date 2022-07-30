@@ -1,17 +1,22 @@
-import { SegmentedControl } from '@mantine/core'
+import { ChangeEvent } from 'react'
+import { createStyles, Switch } from '@mantine/core'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
-import { DEFAULT_BOOLEAN_FILTER_OPTIONS } from '../Datagrid.constants'
+
+type Filter = {
+  operator: BooleanFilter;
+  value: boolean;
+}
 
 export enum BooleanFilter {
   Equals = 'eq',
 }
 
-export const booleanFilterFn: DataGridFilterFn<BooleanFilter, boolean> = (row, columnId, filter) => {
+export const booleanFilterFn: DataGridFilterFn<any, Filter> = (row, columnId, filter) => {
   const rowValue = Boolean(row.getValue(columnId))
-  const op = filter.op || BooleanFilter.Equals
+  const operator = filter.operator || BooleanFilter.Equals
   const filterValue = Boolean(filter.value)
-  switch (op) {
+  switch (operator) {
     case BooleanFilter.Equals:
       return rowValue === filterValue
     default:
@@ -25,19 +30,28 @@ booleanFilterFn.initialFilter = () => ({
   value: true
 })
 
-booleanFilterFn.filterComponent = function ({ filterState, onValueChange }: DataGridFilterProps<BooleanFilter, boolean>) {
+booleanFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGridFilterProps<Filter>) {
+  const { classes } = useStyles()
+  const onValueChange = (e: ChangeEvent<HTMLInputElement>) => onFilterChange({ ...filterState, value: e.currentTarget.checked })
+
   return (
-    <SegmentedControl
-      value={filterState.value ? 'true' : 'false'}
-      onChange={(value: string) => onValueChange(value === 'true')}
-      data={DEFAULT_BOOLEAN_FILTER_OPTIONS}
-      fullWidth
-      // styles={{
-      //   active: {
-      //     // fix visual bug when opening filter dropdown
-      //     height: 'calc(100% - 8px) !important'
-      //   }
-      // }}
+    <Switch
+      checked={filterState.value}
+      onChange={onValueChange}
+      onLabel="true"
+      offLabel="false"
+      size="lg"
+      classNames={{
+        root: classes.switch
+      }}
     />
   )
 }
+
+const useStyles = createStyles(() => {
+  return {
+    switch: {
+      width: '100%'
+    }
+  }
+})
