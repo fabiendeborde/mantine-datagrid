@@ -32,6 +32,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     indent: 'off',
-    '@typescript-eslint/indent': ['error', 2]
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }

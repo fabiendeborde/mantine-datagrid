@@ -1,6 +1,6 @@
-import { CSSProperties, MutableRefObject } from 'react'
-import { ColumnDef, RowSelectionState } from '@tanstack/react-table'
-import { DefaultMantineColor, GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
+import { ComponentType, CSSProperties, MutableRefObject } from 'react'
+import { ColumnDef, FilterFn, RowData, RowSelectionState } from '@tanstack/react-table'
+import { GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 export type DataGridProps<T> = {
   /** Show a loader on loading */
@@ -42,8 +42,6 @@ export type DataGridProps<T> = {
     pageSizes?: string[];
     /** Pagination position */
     position?: GroupPosition;
-    /** Pagination focus / active color */
-    color?: DefaultMantineColor;
   };
   /** Table pagination ref */
   paginationRef?: MutableRefObject<HTMLDivElement>;
@@ -72,3 +70,25 @@ export type DataGridProps<T> = {
   /** The amount of items to load both behind and ahead of the current window range */
   virtualizedRowOverscan?: number;
 };
+
+/** Custom filter function (take an operators enum as O & a filter value type as V) */
+export type DataGridFilterFn<TData extends RowData, TFilter = unknown> = FilterFn<TData> & {
+  /** A default filter component able to handle the <V> type */
+  filterComponent: ComponentType<DataGridFilterProps<TFilter>>;
+  /** The filter default value (operator & value) */
+  initialFilter(): TFilter;
+};
+
+/** Default filter component props (take an operators enum as O & a filter value type as V) */
+export type DataGridFilterProps<T = { operator: unknown, value: unknown }> = {
+  /** The filter current value (operator & value) */
+  filterState: T;
+  /** Filter change handler */
+  onFilterChange(value: T): void;
+};
+
+export type FilterState = {
+  operator: unknown;
+  value: unknown;
+  meta?: unknown;
+}

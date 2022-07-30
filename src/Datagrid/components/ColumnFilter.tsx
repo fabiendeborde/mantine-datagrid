@@ -1,121 +1,95 @@
 import { useState } from 'react'
 import {
   Button,
+  Divider,
   Group,
   Menu,
-  Select,
   Stack,
-  TextInput
+  useMantineTheme
 } from '@mantine/core'
-import { Column } from '@tanstack/react-table'
+import { Column, ColumnFilter } from '@tanstack/react-table'
 import { Filter as FilterIcon } from 'tabler-icons-react'
-import { useDisclosure } from '@mantine/hooks'
+
+import { DataGridFilterFn, FilterState } from '../Datagrid.types'
+import { isDataGridFilter } from '../filters/utils'
 
 type Props<T> = {
-  column: Column<DataTableGenerics<T>>;
-}
-
-type FilterState = {
-  op: StringFilter;
-  value: string;
+  column: Column<T, unknown>;
 }
 
 export function ColumnFilter<T> ({ column }: Props<T>) {
-  const [opened, handlers] = useDisclosure(false)
-  const [filterValue, setFilterValue] = useState<FilterState>()
+  const theme = useMantineTheme()
+  const [opened, setOpened] = useState(false)
+  const [filterState, setFilterState] = useState<FilterState>({ operator: undefined, value: undefined, meta: undefined })
+  const isFiltered = column.getIsFiltered()
 
-  const open = () => {
-    const defaultValue = column.getFilterValue() || {
-      op: StringFilter.Includes,
-      value: ''
+  const filterFn = column.columnDef.filterFn
+
+  if (!isDataGridFilter(filterFn)) {
+    if (filterFn !== 'auto') {
+      console.warn(`Built-in filters are not supported by this library. \nYou must provide a filter function that implements 'DataGridFilterFn' type (or use one of the following default filters: 'stringFilterFn', 'numberFilterFn', 'booleanFilterFn', 'dateFilterFn').\n (Received '${filterFn}' on column ${column.id})`)
     }
-
-    setFilterValue(defaultValue as FilterState)
+    return null
   }
+  const { filterComponent: FilterComponent, initialFilter } = filterFn as DataGridFilterFn<T, unknown>
 
-  const close = () => {
-    setFilterValue(undefined)
-    handlers.close()
-  }
+  // console.log('column', column)
 
-  const valueChange = (value: any) => {
-    setFilterValue(current => {
-      if (current) {
-        return {
-          ...current,
-          value
-        }
-      }
-    })
-  }
-  const operatorChange = (op: any) => {
-    setFilterValue(current => {
-      if (current) {
-        return {
-          ...current,
-          op
-        }
-      }
-    })
-  }
+  const onOpen = () => {
+    const defaultValue = column.getFilterValue() as FilterState || initialFilter()
 
+    setFilterState(defaultValue)
+  }
+  const onClose = () => {
+    setFilterState({ operator: undefined, value: undefined })
+    setOpened(false)
+  }
+  const onFilterChange = (value: FilterState) => {
+    setFilterState(value)
+  }
   const clear = () => {
     column.setFilterValue(undefined)
-    close()
+    onClose()
   }
-  const save = () => {
-    if (filterValue?.value) column.setFilterValue(filterValue)
-    close()
-  }
+  const onSave = () => {
+    console.log('filterState', filterState)
 
-  const isFiltered = column.getIsFiltered()
+    column.setFilterValue(filterState)
+    onClose()
+  }
 
   return (
     <Menu
       opened={opened}
-      onOpen={handlers.open}
-      onClose={handlers.close}
-      size={250}
-      control={
+      onChange={setOpened}
+      closeOnClickOutside={false}
+      withinPortal
+    >
+      <Menu.Target>
         <Button
-          variant={isFiltered ? 'gradient' : 'subtle'}
+          variant={isFiltered ? 'light' : 'subtle'}
+          color={isFiltered ? theme.primaryColor : 'gray'}
           compact
           size="xs"
           px={2}
-          color="gray"
-          gradient={
-              isFiltered ? { from: 'teal', to: 'lime' } : undefined
-          }
-          onClick={open}
+          onClick={onOpen}
         >
           <FilterIcon size={16} />
         </Button>
-      }
-    >
-    <Stack py="sm" px="xs">
-      <Select
-        data={Object.entries(StringFilter).map(
-          ([label, value]) => ({
-            value,
-            label: label.replace(/([a-z]+)([A-Z]{1})/g, '$1 $2')
-          })
-        )}
-        value={filterValue?.op || StringFilter.Includes}
-        onChange={operatorChange}
-      />
-
-      <TextInput
-        value={filterValue?.value || ''}
-        onChange={(e) => valueChange(e.target.value)}
-        placeholder="Filter value"
-        rightSection={<FilterIcon color="gray" size={16} />}
-      />
-
-      <Group position="apart">
-        <Button size="xs" variant='subtle' color="gray" onClick={clear}>Clear</Button>
-        <Button size="xs" onClick={save}>Apply</Button>
-      </Group>
-      </Stack>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Stack py="sm" px="xs">
+          <FilterComponent
+            filterState={filterState}
+            onFilterChange={onFilterChange}
+          />
+          <Divider size="xs" />
+          <Group position="apart">
+            <Button size="xs" variant='subtle' color="gray" onClick={clear}>Clear</Button>
+            <Button size="xs" onClick={onSave} leftIcon={<FilterIcon size={16} />}>Filter</Button>
+          </Group>
+        </Stack>
+      </Menu.Dropdown>
     </Menu>
   )
 }

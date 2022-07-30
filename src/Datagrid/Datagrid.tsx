@@ -5,7 +5,11 @@ import {
   Table as MantineTable
 } from '@mantine/core'
 import {
+  ColumnFiltersState,
   getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -57,6 +61,7 @@ export function Datagrid<T> ({
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
   useEffect(() => {
@@ -70,18 +75,23 @@ export function Datagrid<T> ({
       pagination,
       sorting,
       globalFilter,
+      columnFilters,
       rowSelection
     },
     onPaginationChange: withPagination ? setPagination : undefined,
     onSortingChange: setSorting,
     enableGlobalFilter: withGlobalFilter,
     onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
     enableRowSelection: withRowSelection,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
     debugTable: debug,
     debugHeaders: debug,
     debugColumns: debug
