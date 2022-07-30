@@ -1,6 +1,5 @@
 import { Select } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
-import { Filter as FilterIcon } from 'tabler-icons-react'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 
@@ -20,9 +19,9 @@ export enum DateFilter {
 
 export const dateFilterFn: DataGridFilterFn<any, Filter> = (row, columnId, filter) => {
   const rowValue = new Date(row.getValue(columnId))
-  const op = filter.op || DateFilter.Equals
+  const operator = filter.operator || DateFilter.Equals
   const filterValue = new Date(filter.value)
-  switch (op) {
+  switch (operator) {
     case DateFilter.Equals:
       return rowValue === filterValue
     case DateFilter.NotEquals:
