@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   Button,
+  Divider,
   Group,
   Menu,
   Stack,
@@ -81,6 +82,7 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
             filterState={filterState}
             onFilterChange={onFilterChange}
           />
+          <Divider size="xs" />
           <Group position="apart">
             <Button size="xs" variant='subtle' color="gray" onClick={clear}>Clear</Button>
             <Button size="xs" onClick={onSave} leftIcon={<FilterIcon size={16} />}>Filter</Button>
