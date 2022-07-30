@@ -45,5 +45,8 @@ export default createStyles((theme, props?: StyleProps) => ({
     height: 24,
     alignSelf: 'center',
     borderLeftColor: props?.paginationColor ? theme.colors?.[props?.paginationColor][8] : '#ced4da'
+  },
+  filterMenuInput: {
+    minWidth: 220
   }
 }))
