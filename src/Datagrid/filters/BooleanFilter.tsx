@@ -1,7 +1,7 @@
-import { ChangeEvent } from 'react'
-import { createStyles, Switch } from '@mantine/core'
+import { SegmentedControl, useMantineTheme } from '@mantine/core'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
+import { DEFAULT_BOOLEAN_FILTER_OPTIONS } from '../Datagrid.constants'
 
 type Filter = {
   operator: BooleanFilter;
@@ -31,27 +31,20 @@ booleanFilterFn.initialFilter = () => ({
 })
 
 booleanFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGridFilterProps<Filter>) {
-  const { classes } = useStyles()
-  const onValueChange = (e: ChangeEvent<HTMLInputElement>) => onFilterChange({ ...filterState, value: e.currentTarget.checked })
+  const theme = useMantineTheme()
+  const onValueChange = (value: string) => onFilterChange({ ...filterState, value: value === 'true' })
 
   return (
-    <Switch
-      checked={filterState.value}
+    <SegmentedControl
+      value={filterState.value ? 'true' : 'false'}
       onChange={onValueChange}
-      onLabel="true"
-      offLabel="false"
-      size="lg"
-      classNames={{
-        root: classes.switch
-      }}
+      data={DEFAULT_BOOLEAN_FILTER_OPTIONS}
+      fullWidth
+      size="sm"
+      radius="lg"
+      transitionDuration={300}
+      transitionTimingFunction="ease-in-out"
+      color={theme.primaryColor}
     />
   )
 }
-
-const useStyles = createStyles(() => {
-  return {
-    switch: {
-      width: '100%'
-    }
-  }
-})
