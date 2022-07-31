@@ -75,6 +75,11 @@ export type DataGridProps<T> = {
   withVirtualizedRows?: boolean;
   /** The amount of items to load both behind and ahead of the current window range */
   virtualizedRowOverscan?: number;
+  initialGridState?: {
+    pagination?: PaginationState;
+    sorting?: SortingState;
+    columnFilters?: ColumnFiltersState;
+  }
 };
 
 /** Custom filter function (take an operators enum as O & a filter value type as V) */
