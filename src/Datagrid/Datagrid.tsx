@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   LoadingOverlay,
   ScrollArea,
@@ -6,6 +6,7 @@ import {
 } from '@mantine/core'
 import {
   ColumnFiltersState,
+  functionalUpdate,
   getCoreRowModel,
   getFacetedMinMaxValues,
   getFacetedRowModel,
@@ -13,6 +14,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  OnChangeFn,
   PaginationState,
   RowSelectionState,
   SortingState,
@@ -21,7 +23,7 @@ import {
 import PropTypes from 'prop-types'
 
 import { DataGridProps } from './Datagrid.types'
-import { DEFAULT_PAGE_SIZE } from './Datagrid.constants'
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from './Datagrid.constants'
 import useStyles from './Datagrid.styles'
 
 import GridHeader from './components/Header'
@@ -52,37 +54,88 @@ export function Datagrid<T> ({
   withRowSelection = false,
   onRowSelection,
   withVirtualizedRows = false,
-  virtualizedRowOverscan
+  virtualizedRowOverscan,
+  onColumnFilterChange,
+  onSortingChange,
+  onPaginationChange,
+  initialGridState
 }: DataGridProps<T>) {
   const { classes } = useStyles({})
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: paginationOptions?.initialPageIndex || 0,
-    pageSize: withPagination ? paginationOptions?.initialPageSize || DEFAULT_PAGE_SIZE : data.length
-  })
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [globalFilter, setGlobalFilter] = useState('')
 
   useEffect(() => {
     onRowSelection && onRowSelection(rowSelection)
   }, [rowSelection])
 
+  useEffect(() => {
+    if (withPagination) {
+      table.setPageSize(paginationOptions?.initialPageSize || DEFAULT_PAGE_SIZE)
+      table.setPageIndex(paginationOptions?.initialPageIndex || DEFAULT_PAGE_INDEX)
+    } else {
+      table.setPageSize(data.length)
+      table.setPageIndex(DEFAULT_PAGE_INDEX)
+    }
+  }, [withPagination])
+
+  useEffect(() => {
+    console.log('initialGridState updated', initialGridState)
+    if (initialGridState?.sorting) table.setSorting(initialGridState.sorting)
+  }, [initialGridState])
+
+  const _handleColumnFiltersChange: OnChangeFn<ColumnFiltersState> = useCallback(
+    (arg0) =>
+      table.setState((state) => {
+        const filter = functionalUpdate(arg0, state.columnFilters)
+        onColumnFilterChange && onColumnFilterChange(filter)
+        return {
+          ...state,
+          columnFilters: filter
+        }
+      }),
+    []
+  )
+  const _handleSortingChange: OnChangeFn<SortingState> = useCallback(
+    (arg0) =>
+      table.setState((state) => {
+        const sort = functionalUpdate(arg0, state.sorting)
+        onSortingChange && onSortingChange(sort)
+        return {
+          ...state,
+          sorting: sort
+        }
+      }),
+    []
+  )
+  const _handlePaginationChange: OnChangeFn<PaginationState> = useCallback(
+    (arg0) => {
+      if (withPagination) {
+        const pagination = table.getState().pagination
+        const nextPagination = functionalUpdate(arg0, pagination)
+        if (nextPagination.pageIndex !== pagination.pageIndex || nextPagination.pageSize !== pagination.pageSize) {
+          onPaginationChange && onPaginationChange(nextPagination)
+          table.setState((state) => ({
+            ...state,
+            pagination: nextPagination
+          }))
+        }
+      }
+    },
+    []
+  )
+
   const table = useReactTable<T>({
     data,
     columns,
     state: {
-      pagination,
-      sorting,
-      globalFilter,
-      columnFilters,
-      rowSelection
+      globalFilter
     },
-    onPaginationChange: withPagination ? setPagination : undefined,
-    onSortingChange: setSorting,
+    initialState: initialGridState,
+    onPaginationChange: _handlePaginationChange,
+    onSortingChange: _handleSortingChange,
     enableGlobalFilter: withGlobalFilter,
     onGlobalFilterChange: setGlobalFilter,
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: _handleColumnFiltersChange,
     enableRowSelection: withRowSelection,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
@@ -107,7 +160,7 @@ export function Datagrid<T> ({
   const GridPagination = () => (
     <Pagination
       ref={paginationRef}
-      pagination={pagination}
+      pagination={table.getState().pagination}
       totalRows={table.getFilteredRowModel()?.rows?.length || 0}
       totalPages={table.getPageCount()}
       onPageChange={_handlePageChange}
