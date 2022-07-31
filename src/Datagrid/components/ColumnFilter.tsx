@@ -52,8 +52,6 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
     onClose()
   }
   const onSave = () => {
-    console.log('filterState', filterState)
-
     column.setFilterValue(filterState)
     onClose()
   }
