@@ -1,5 +1,5 @@
 import { ComponentType, CSSProperties, MutableRefObject } from 'react'
-import { ColumnDef, FilterFn, RowData, RowSelectionState } from '@tanstack/react-table'
+import { ColumnDef, ColumnFiltersState, FilterFn, PaginationState, RowData, RowSelectionState, SortingState } from '@tanstack/react-table'
 import { GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core'
 
 export type DataGridProps<T> = {
@@ -11,6 +11,10 @@ export type DataGridProps<T> = {
   columns: ColumnDef<T, unknown>[];
   /** Table data */
   data: T[];
+  /** Optional callback on column filter change (with column fiter state) */
+  onColumnFilterChange?: (filter: ColumnFiltersState) => void;
+  /** Optional callback on column sort change (with column sorting state) */
+  onSortingChange?: (sort: SortingState) => void;
   /** Callback on Table row click (with row values) */
   onRowClick?: (row: T) => void;
   /** Table container props (https://mantine.dev/core/scroll-area/) */
@@ -25,6 +29,8 @@ export type DataGridProps<T> = {
   withPagination?: boolean;
   /** Enable pagination above the Table */
   withTopPagination?: boolean;
+  /** Optional callback on pagination change (with pagination state) */
+  onPaginationChange?: (filter: PaginationState) => void;
   /** Pagination options */
   paginationOptions?: {
     /**
