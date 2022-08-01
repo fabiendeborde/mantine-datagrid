@@ -128,7 +128,8 @@ export function Datagrid<T> ({
     data,
     columns,
     state: {
-      globalFilter
+      globalFilter,
+      rowSelection
     },
     initialState: initialGridState,
     onPaginationChange: _handlePaginationChange,
