@@ -15,6 +15,9 @@ type Props = {
   paginationOptions?: {
     pageSizes?: string[];
     position?: GroupPosition;
+    initialPageIndex?: number;
+    initialPageSize?: number;
+    rowsCount?: number;
   };
 }
 
@@ -26,17 +29,25 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   const color = theme?.primaryColor || 'blue'
   const position = paginationOptions?.position || 'right'
   const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
+  // const currentPageIndex = paginationOptions?.manualPagination ? paginationOptions.initialPageIndex as number : pagination.pageIndex
+  // const currentPageSize = paginationOptions?.manualPagination ? paginationOptions.initialPageSize as number : pagination.pageSize
+  // const currentTotalPages = paginationOptions?.manualPagination ? paginationOptions.initialPageSize as number : pagination.pageSize
+  const currentPageIndex = pagination.pageIndex
+  const currentPageSize = pagination.pageSize
+  const currentTotalPages = paginationOptions?.rowsCount ? Math.ceil(paginationOptions.rowsCount / pagination.pageSize) : totalPages
 
   const { classes } = useStyles({ paginationColor: color })
+
+  // console.log({ pagination, totalRows, currentTotalPages, paginationOptions })
 
   const _handlePageSizeChange = (value: string) => {
     onSizeChange(Number(value))
   }
 
   const getPageRecordInfo = () => {
-    const firstRowNum = pagination.pageIndex * pagination.pageSize + 1
+    const firstRowNum = currentPageIndex * pagination.pageSize + 1
 
-    const currLastRowNum = (pagination.pageIndex + 1) * pagination.pageSize
+    const currLastRowNum = (currentPageIndex + 1) * currentPageSize
     const lastRowNum = currLastRowNum < totalRows ? currLastRowNum : totalRows
     return `${firstRowNum} - ${lastRowNum} of ${totalRows}`
   }
@@ -49,7 +60,7 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
         variant="filled"
         data={pageSizes}
         mb={0}
-        value={pagination.pageSize + ''}
+        value={currentPageSize + ''}
         onChange={_handlePageSizeChange}
       />
       <Divider orientation="vertical" className={classes.paginationDivider} />
@@ -58,8 +69,8 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
       </Text>
       <Divider orientation="vertical" className={classes.paginationDivider} />
       <MantinePagination
-        page={pagination.pageIndex + 1}
-        total={totalPages}
+        page={currentPageIndex + 1}
+        total={currentTotalPages}
         onChange={onPageChange}
         py="md"
         position="center"
