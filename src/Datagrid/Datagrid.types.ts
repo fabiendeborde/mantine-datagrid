@@ -52,10 +52,14 @@ export type DataGridProps<T> = {
      * Default is `false`
     */
     manualPagination?: boolean;
-    /** Set data total pages (only when manual pagination is `true`)
-     * Default is `0`
+    /** Set data total rows (only when manual pagination is `true`)
+     * Default is `undefined`
     */
-    pagesCount?: number;
+    rowsCount?: number;
+    /** Set data total pages (only when manual pagination is `true`)
+     * Default is `undefined`
+    */
+    pageCount?: number;
   };
   /** Table pagination ref */
   paginationRef?: MutableRefObject<HTMLDivElement>;
