@@ -78,12 +78,6 @@ export function Datagrid<T> ({
     }
   }, [withPagination])
 
-  // useEffect(() => {
-  //   console.log('initialGridState updated', initialGridState)
-  //   if (initialGridState?.sorting) table.setSorting(initialGridState.sorting)
-  //   if (initialGridState?.columnFilters) table.setColumnFilters(initialGridState.columnFilters)
-  // }, [initialGridState])
-
   const _handleColumnFiltersChange: OnChangeFn<ColumnFiltersState> = useCallback(
     (arg0) =>
       table.setState((state) => {
@@ -134,6 +128,8 @@ export function Datagrid<T> ({
     },
     initialState: initialGridState,
     onPaginationChange: _handlePaginationChange,
+    manualPagination: paginationOptions?.manualPagination,
+    pageCount: paginationOptions?.pageCount,
     onSortingChange: _handleSortingChange,
     enableGlobalFilter: withGlobalFilter,
     onGlobalFilterChange: setGlobalFilter,
@@ -141,7 +137,7 @@ export function Datagrid<T> ({
     enableRowSelection: withRowSelection,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: paginationOptions?.manualPagination ? undefined : getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
@@ -163,7 +159,7 @@ export function Datagrid<T> ({
     <Pagination
       ref={paginationRef}
       pagination={table.getState().pagination}
-      totalRows={table.getFilteredRowModel()?.rows?.length || 0}
+      totalRows={paginationOptions?.rowsCount as number || table.getFilteredRowModel()?.rows?.length || 0}
       totalPages={table.getPageCount()}
       onPageChange={_handlePageChange}
       onSizeChange={_handlePageSizeChange}
