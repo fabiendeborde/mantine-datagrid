@@ -11,11 +11,11 @@ type Filter = {
 
 export enum StringFilter {
   Includes = 'in',
-  DoesNotInclude = 'nin',
+  DoesNotInclude = 'notin',
   Equals = 'eq',
   DoesNotEqual = 'neq',
-  StartsWith = 'start',
-  EndsWith = 'end',
+  StartsWith = 'startswith',
+  EndsWith = 'endswith',
 }
 
 export const stringFilterFn: DataGridFilterFn<any, Filter> = (row, columnId, filter) => {
