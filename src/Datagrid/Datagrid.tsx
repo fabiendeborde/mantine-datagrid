@@ -78,10 +78,11 @@ export function Datagrid<T> ({
     }
   }, [withPagination])
 
-  useEffect(() => {
-    console.log('initialGridState updated', initialGridState)
-    if (initialGridState?.sorting) table.setSorting(initialGridState.sorting)
-  }, [initialGridState])
+  // useEffect(() => {
+  //   console.log('initialGridState updated', initialGridState)
+  //   if (initialGridState?.sorting) table.setSorting(initialGridState.sorting)
+  //   if (initialGridState?.columnFilters) table.setColumnFilters(initialGridState.columnFilters)
+  // }, [initialGridState])
 
   const _handleColumnFiltersChange: OnChangeFn<ColumnFiltersState> = useCallback(
     (arg0) =>
