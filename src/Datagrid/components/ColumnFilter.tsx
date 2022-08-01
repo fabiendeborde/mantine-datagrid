@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   Button,
+  CloseButton,
   Divider,
   Group,
   Menu,
@@ -52,8 +53,6 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
     onClose()
   }
   const onSave = () => {
-    console.log('filterState', filterState)
-
     column.setFilterValue(filterState)
     onClose()
   }
@@ -64,6 +63,7 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
       onChange={setOpened}
       closeOnClickOutside={false}
       withinPortal
+      zIndex={1000}
     >
       <Menu.Target>
         <Button
@@ -78,6 +78,9 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
         </Button>
       </Menu.Target>
       <Menu.Dropdown>
+        <Group position='right'>
+          <CloseButton aria-label="Close menu" onClick={() => setOpened(false)} />
+        </Group>
         <Stack py="sm" px="xs">
           <FilterComponent
             filterState={filterState}
