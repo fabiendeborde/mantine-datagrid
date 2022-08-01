@@ -31,9 +31,6 @@ export default function HeaderCell<T> ({
   const canSort = isLastGroup && header.column.getCanSort()
   const canFilter = isLastGroup && header.column.getCanFilter()
 
-  // console.log('column', header)
-  // console.log('getCanFilter', header.id, header.column.getCanFilter())
-
   return (
     <th
       style={{

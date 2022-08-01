@@ -78,12 +78,6 @@ export function Datagrid<T> ({
     }
   }, [withPagination])
 
-  // useEffect(() => {
-  //   console.log('initialGridState updated', initialGridState)
-  //   if (initialGridState?.sorting) table.setSorting(initialGridState.sorting)
-  //   if (initialGridState?.columnFilters) table.setColumnFilters(initialGridState.columnFilters)
-  // }, [initialGridState])
-
   const _handleColumnFiltersChange: OnChangeFn<ColumnFiltersState> = useCallback(
     (arg0) =>
       table.setState((state) => {
@@ -112,7 +106,6 @@ export function Datagrid<T> ({
     (arg0) => {
       if (withPagination) {
         const pagination = table.getState().pagination
-        // if (paginationOptions?.manualPagination) pagination = initialGridState?.pagination as PaginationState
         const nextPagination = functionalUpdate(arg0, pagination)
         if (nextPagination.pageIndex !== pagination.pageIndex || nextPagination.pageSize !== pagination.pageSize) {
           onPaginationChange && onPaginationChange(nextPagination)

@@ -34,8 +34,6 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
   }
   const { filterComponent: FilterComponent, initialFilter } = filterFn as DataGridFilterFn<T, unknown>
 
-  // console.log('column', column)
-
   const onOpen = () => {
     const defaultValue = column.getFilterValue() as FilterState || initialFilter()
 

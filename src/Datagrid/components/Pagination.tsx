@@ -29,16 +29,11 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   const color = theme?.primaryColor || 'blue'
   const position = paginationOptions?.position || 'right'
   const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
-  // const currentPageIndex = paginationOptions?.manualPagination ? paginationOptions.initialPageIndex as number : pagination.pageIndex
-  // const currentPageSize = paginationOptions?.manualPagination ? paginationOptions.initialPageSize as number : pagination.pageSize
-  // const currentTotalPages = paginationOptions?.manualPagination ? paginationOptions.initialPageSize as number : pagination.pageSize
   const currentPageIndex = pagination.pageIndex
   const currentPageSize = pagination.pageSize
   const currentTotalPages = paginationOptions?.rowsCount ? Math.ceil(paginationOptions.rowsCount / pagination.pageSize) : totalPages
 
   const { classes } = useStyles({ paginationColor: color })
-
-  // console.log({ pagination, totalRows, currentTotalPages, paginationOptions })
 
   const _handlePageSizeChange = (value: string) => {
     onSizeChange(Number(value))
