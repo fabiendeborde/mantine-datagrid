@@ -48,6 +48,14 @@ export type DataGridProps<T> = {
     pageSizes?: string[];
     /** Pagination position */
     position?: GroupPosition;
+    /** Enables manual pagination
+     * Default is `false`
+    */
+    manualPagination?: boolean;
+    /** Set data total pages (only when manual pagination is `true`)
+     * Default is `0`
+    */
+    pagesCount?: number;
   };
   /** Table pagination ref */
   paginationRef?: MutableRefObject<HTMLDivElement>;
@@ -75,12 +83,14 @@ export type DataGridProps<T> = {
   withVirtualizedRows?: boolean;
   /** The amount of items to load both behind and ahead of the current window range */
   virtualizedRowOverscan?: number;
-  initialGridState?: {
-    pagination?: PaginationState;
-    sorting?: SortingState;
-    columnFilters?: ColumnFiltersState;
-  }
+  initialGridState?: InitialGridState;
 };
+
+export type InitialGridState = {
+  pagination?: PaginationState;
+  sorting?: SortingState;
+  columnFilters?: ColumnFiltersState;
+}
 
 /** Custom filter function (take an operators enum as O & a filter value type as V) */
 export type DataGridFilterFn<TData extends RowData, TFilter = unknown> = FilterFn<TData> & {
