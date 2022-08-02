@@ -60,10 +60,6 @@ export type DataGridProps<T> = {
     pageSizes?: string[];
     /** Pagination position */
     position?: GroupPosition;
-    /** Set pagination state (only used when manual pagination is `true`)
-     * Default is `undefined`
-    */
-    paginationState?: PaginationState;
     /** Set data total rows (only used when manual pagination is `true`)
      * Default is `undefined`
     */
