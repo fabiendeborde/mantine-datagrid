@@ -17,7 +17,10 @@ type Props = {
     position?: GroupPosition;
     initialPageIndex?: number;
     initialPageSize?: number;
+    pageIndex?: number;
+    pageSize?: number;
     rowsCount?: number;
+    pageCount?: number;
   };
 }
 
@@ -29,11 +32,12 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   const color = theme?.primaryColor || 'blue'
   const position = paginationOptions?.position || 'right'
   const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
-  const currentPageIndex = pagination.pageIndex
+  const currentPageIndex = paginationOptions?.pageIndex || pagination.pageIndex
   const currentPageSize = pagination.pageSize
-  const currentTotalPages = paginationOptions?.rowsCount ? Math.ceil(paginationOptions.rowsCount / pagination.pageSize) : totalPages
+  const currentTotalPages = paginationOptions?.pageCount || totalPages
 
   const { classes } = useStyles({ paginationColor: color })
+  // console.log({ pagination, paginationOptions })
 
   const _handlePageSizeChange = (value: string) => {
     onSizeChange(Number(value))
