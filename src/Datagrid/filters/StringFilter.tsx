@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import { Select, TextInput } from '@mantine/core'
+import PropTypes from 'prop-types'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 import { getOperatorSelectData } from './utils'
@@ -62,4 +63,9 @@ stringFilterFn.filterComponent = function ({ filterState, onFilterChange }: Data
       />
     </>
   )
+}
+
+stringFilterFn.filterComponent.propTypes = {
+  filterState: PropTypes.any.isRequired,
+  onFilterChange: PropTypes.func.isRequired
 }
