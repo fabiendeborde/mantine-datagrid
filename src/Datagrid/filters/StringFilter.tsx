@@ -52,12 +52,6 @@ stringFilterFn.filterComponent = function ({ filterState, onFilterChange }: Data
     <>
       <Select
         data={getOperatorSelectData(StringFilter)}
-        // data={Object.entries(StringFilter).map(
-        //   ([label, value]) => ({
-        //     value,
-        //     label: formatOperatorLabel(label)
-        //   })
-        // )}
         value={filterState?.operator || StringFilter.Includes}
         onChange={onOperatorChange}
       />
