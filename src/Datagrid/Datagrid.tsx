@@ -69,8 +69,8 @@ export function Datagrid<T> (props: DataGridProps<T>) {
   } = props
 
   useEffect(() => {
-    console.debug('props', props)
-  }, [props])
+    if (debug) console.log('props', props)
+  }, [props, debug])
 
   useEffect(() => {
     onRowSelection && onRowSelection(rowSelection)
