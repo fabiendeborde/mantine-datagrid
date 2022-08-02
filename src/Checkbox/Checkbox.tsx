@@ -1,12 +1,14 @@
+import { ChangeEvent } from 'react'
 import {
   Checkbox as MantineCheckbox,
   CheckboxProps
 } from '@mantine/core'
+import PropTypes from 'prop-types'
 
 type Props = CheckboxProps & {
   checked: boolean;
   indeterminate: boolean;
-  onChange: (event: unknown) => void
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 export function Checkbox ({ checked, indeterminate, onChange, ...rest }: Props) {
@@ -18,4 +20,10 @@ export function Checkbox ({ checked, indeterminate, onChange, ...rest }: Props) 
       {...rest}
     />
   )
+}
+
+Checkbox.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  indeterminate: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 }
