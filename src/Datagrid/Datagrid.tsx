@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   LoadingOverlay,
   ScrollArea,
@@ -18,6 +18,7 @@ import {
   PaginationState,
   RowSelectionState,
   SortingState,
+  TableState,
   useReactTable
 } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
@@ -31,38 +32,45 @@ import GridBody from './components/Body'
 import Pagination from './components/Pagination'
 import GlobalFilter from './components/GlobalFilter'
 
-export function Datagrid<T> ({
-  loading = false,
-  debug = false,
-  columns,
-  data,
-  onRowClick,
-  containerProps,
-  containerStyle,
-  containerRef,
-  containerMaxHeight,
-  withPagination = false,
-  withTopPagination = false,
-  paginationOptions,
-  paginationRef,
-  withGlobalFilter = false,
-  striped = false,
-  highlightOnHover = false,
-  horizontalSpacing = 'xs',
-  verticalSpacing = 'xs',
-  fontSize = 'sm',
-  withRowSelection = false,
-  onRowSelection,
-  withVirtualizedRows = false,
-  virtualizedRowOverscan,
-  onColumnFilterChange,
-  onSortingChange,
-  onPaginationChange,
-  initialGridState
-}: DataGridProps<T>) {
+export function Datagrid<T> (props: DataGridProps<T>) {
   const { classes } = useStyles({})
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [globalFilter, setGlobalFilter] = useState('')
+
+  const {
+    loading = false,
+    debug = false,
+    columns,
+    data,
+    onRowClick,
+    containerProps,
+    containerStyle,
+    containerRef,
+    containerMaxHeight,
+    manualPagination,
+    withPagination,
+    withTopPagination = false,
+    paginationOptions,
+    paginationRef,
+    withGlobalFilter = false,
+    striped = false,
+    highlightOnHover = false,
+    horizontalSpacing = 'xs',
+    verticalSpacing = 'xs',
+    fontSize = 'sm',
+    withRowSelection = false,
+    onRowSelection,
+    withVirtualizedRows = false,
+    virtualizedRowOverscan,
+    onColumnFilterChange,
+    onSortingChange,
+    onPaginationChange,
+    gridState
+  } = props
+
+  useEffect(() => {
+    if (debug) console.log('props', props)
+  }, [props, debug])
 
   useEffect(() => {
     onRowSelection && onRowSelection(rowSelection)
@@ -104,9 +112,11 @@ export function Datagrid<T> ({
   )
   const _handlePaginationChange: OnChangeFn<PaginationState> = useCallback(
     (arg0) => {
-      if (withPagination) {
+      if (withPagination && !manualPagination) {
         const pagination = table.getState().pagination
         const nextPagination = functionalUpdate(arg0, pagination)
+        // console.debug('current pagination', pagination)
+        // console.debug('next pagination', nextPagination)
         if (nextPagination.pageIndex !== pagination.pageIndex || nextPagination.pageSize !== pagination.pageSize) {
           onPaginationChange && onPaginationChange(nextPagination)
           table.setState((state) => ({
@@ -119,16 +129,42 @@ export function Datagrid<T> ({
     []
   )
 
+  const computedState = useMemo(() => {
+    let currentState: Partial<TableState> = {}
+
+    if (gridState?.pagination) {
+      currentState = {
+        ...currentState,
+        pagination: gridState.pagination
+      }
+    }
+    if (gridState?.sorting) {
+      currentState = {
+        ...currentState,
+        sorting: gridState.sorting
+      }
+    }
+    if (gridState?.columnFilters) {
+      currentState = {
+        ...currentState,
+        columnFilters: gridState.columnFilters
+      }
+    }
+    return currentState
+  }, [gridState])
+
+  // console.log('state', state)
+
   const table = useReactTable<T>({
     data,
     columns,
     state: {
       globalFilter,
-      rowSelection
+      rowSelection,
+      ...computedState
     },
-    initialState: initialGridState,
     onPaginationChange: _handlePaginationChange,
-    manualPagination: paginationOptions?.manualPagination,
+    manualPagination,
     pageCount: paginationOptions?.pageCount,
     onSortingChange: _handleSortingChange,
     enableGlobalFilter: withGlobalFilter,
@@ -137,7 +173,7 @@ export function Datagrid<T> ({
     enableRowSelection: withRowSelection,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: paginationOptions?.manualPagination ? undefined : getPaginationRowModel(),
+    getPaginationRowModel: manualPagination ? undefined : getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
@@ -149,10 +185,24 @@ export function Datagrid<T> ({
   })
 
   const _handlePageChange = (num: number) => {
-    table.setPageIndex(num - 1)
+    if (manualPagination) {
+      onPaginationChange && onPaginationChange({
+        pageIndex: num - 1,
+        pageSize: gridState?.pagination?.pageSize as number
+      })
+    } else {
+      table.setPageIndex(num - 1)
+    }
   }
   const _handlePageSizeChange = (size: number) => {
-    table.setPageSize(size)
+    if (manualPagination) {
+      onPaginationChange && onPaginationChange({
+        pageIndex: gridState?.pagination?.pageIndex as number,
+        pageSize: size
+      })
+    } else {
+      table.setPageSize(size)
+    }
   }
 
   const GridPagination = () => (

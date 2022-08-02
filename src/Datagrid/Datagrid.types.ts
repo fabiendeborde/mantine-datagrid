@@ -29,6 +29,10 @@ export type DataGridProps<T> = {
   withPagination?: boolean;
   /** Enable pagination above the Table */
   withTopPagination?: boolean;
+  /** Enables manual pagination
+     * Default is `false`
+    */
+  manualPagination?: boolean;
   /** Optional callback on pagination change (with pagination state) */
   onPaginationChange?: (filter: PaginationState) => void;
   /** Pagination options */
@@ -42,21 +46,25 @@ export type DataGridProps<T> = {
      * Default is `10`  */
     initialPageSize?: number;
     /**
+     * Controlled page index (only used when manual pagination is `true)
+     * Default is `0` */
+    pageIndex?: number;
+    /**
+     * Controlled page size (rows per page) (only used when manual pagination is `true)
+     * Default is `10`  */
+    pageSize?: number;
+    /**
      * Sets of string for page size (rows per page) selections.
      * Default is `["10", "25", "50", "100"]`
      * */
     pageSizes?: string[];
     /** Pagination position */
     position?: GroupPosition;
-    /** Enables manual pagination
-     * Default is `false`
-    */
-    manualPagination?: boolean;
-    /** Set data total rows (only when manual pagination is `true`)
+    /** Set data total rows (only used when manual pagination is `true`)
      * Default is `undefined`
     */
     rowsCount?: number;
-    /** Set data total pages (only when manual pagination is `true`)
+    /** Set data total pages (only used when manual pagination is `true`)
      * Default is `undefined`
     */
     pageCount?: number;
@@ -87,10 +95,11 @@ export type DataGridProps<T> = {
   withVirtualizedRows?: boolean;
   /** The amount of items to load both behind and ahead of the current window range */
   virtualizedRowOverscan?: number;
-  initialGridState?: InitialGridState;
+  /** Grid State used for controlled pagination & filters */
+  gridState?: GridState;
 };
 
-export type InitialGridState = {
+export type GridState = {
   pagination?: PaginationState;
   sorting?: SortingState;
   columnFilters?: ColumnFiltersState;
