@@ -97,5 +97,5 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
 }
 
 ColumnFilter.propTypes = {
-  columns: PropTypes.object.isRequired
+  columns: PropTypes.object
 }
