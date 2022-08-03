@@ -113,8 +113,6 @@ export function Datagrid<T> (props: DataGridProps<T>) {
       if (withPagination && !manualPagination) {
         const pagination = table.getState().pagination
         const nextPagination = functionalUpdate(arg0, pagination)
-        // console.debug('current pagination', pagination)
-        // console.debug('next pagination', nextPagination)
         if (nextPagination.pageIndex !== pagination.pageIndex || nextPagination.pageSize !== pagination.pageSize) {
           onPaginationChange && onPaginationChange(nextPagination)
           table.setState((state) => ({
@@ -150,8 +148,6 @@ export function Datagrid<T> (props: DataGridProps<T>) {
     }
     return currentState
   }, [gridState])
-
-  // console.log('state', state)
 
   const table = useReactTable<T>({
     data,
@@ -208,7 +204,7 @@ export function Datagrid<T> (props: DataGridProps<T>) {
       ref={paginationRef}
       pagination={table.getState().pagination}
       totalRows={paginationOptions?.rowsCount as number || table.getFilteredRowModel()?.rows?.length || 0}
-      totalPages={table.getPageCount()}
+      totalPages={paginationOptions?.pageCount || table.getPageCount() || 0}
       onPageChange={_handlePageChange}
       onSizeChange={_handlePageSizeChange}
       paginationOptions={paginationOptions}
@@ -286,7 +282,7 @@ Datagrid.propTypes = {
   onPaginationChange: PropTypes.func,
   gridState: PropTypes.shape({
     pagination: PropTypes.object,
-    sorting: PropTypes.object,
-    columnFilters: PropTypes.object
+    sorting: PropTypes.array,
+    columnFilters: PropTypes.array
   })
 }

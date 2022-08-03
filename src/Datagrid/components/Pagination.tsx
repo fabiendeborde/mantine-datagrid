@@ -19,8 +19,6 @@ type Props = {
     initialPageSize?: number;
     pageIndex?: number;
     pageSize?: number;
-    rowsCount?: number; // FIXME: wtf?? this is already defined above...
-    pageCount?: number; // FIXME: wtf?? this is already defined above...
   };
 }
 
@@ -34,10 +32,8 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
   const pageSizes = paginationOptions?.pageSizes || DEFAULT_PAGE_SIZES
   const currentPageIndex = paginationOptions?.pageIndex || pagination.pageIndex
   const currentPageSize = pagination.pageSize
-  const currentTotalPages = paginationOptions?.pageCount || totalPages
 
   const { classes } = useStyles({ paginationColor: color })
-  // console.log({ pagination, paginationOptions })
 
   const _handlePageSizeChange = (value: string) => {
     onSizeChange(Number(value))
@@ -69,7 +65,7 @@ const Pagination = React.forwardRef<HTMLDivElement, Props>((
       <Divider orientation="vertical" className={classes.paginationDivider} />
       <MantinePagination
         page={currentPageIndex + 1}
-        total={currentTotalPages}
+        total={totalPages}
         onChange={onPageChange}
         py="md"
         position="center"
