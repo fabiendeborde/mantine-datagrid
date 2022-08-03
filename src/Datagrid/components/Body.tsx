@@ -87,10 +87,15 @@ export default function Body<T> ({ table, onRowClick, withVirtualizedRows, paren
   )
 }
 
+VirtualizedBody.propTypes = {
+  parentRef: PropTypes.any.isRequired
+}
+
 Body.propTypes = {
   table: PropTypes.object,
   onRowClick: PropTypes.func,
   withVirtualizedRows: PropTypes.bool,
+  virtualizedRowOverscan: PropTypes.number,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parentRef: function (props: any, propName: string) {
     if (props.withVirtualizedRows && !props[propName]) {

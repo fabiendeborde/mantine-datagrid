@@ -19,8 +19,8 @@ type Props = {
     initialPageSize?: number;
     pageIndex?: number;
     pageSize?: number;
-    rowsCount?: number;
-    pageCount?: number;
+    rowsCount?: number; // FIXME: wtf?? this is already defined above...
+    pageCount?: number; // FIXME: wtf?? this is already defined above...
   };
 }
 
@@ -89,9 +89,8 @@ Pagination.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   totalRows: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired
-  // position: PropTypes.oneOf(['right', 'center', 'left', 'apart']),
-  // color: PropTypes.string
+  totalPages: PropTypes.number.isRequired,
+  paginationOptions: PropTypes.object
 }
 
 export default Pagination
