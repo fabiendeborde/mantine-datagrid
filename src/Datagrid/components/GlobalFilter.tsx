@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TextInput } from '@mantine/core'
 import { Search } from 'tabler-icons-react'
+import PropTypes from 'prop-types'
 
 type Props = {
   globalFilter: string;
@@ -31,4 +32,9 @@ export default function GlobalFilter ({ globalFilter, onGlobalFilterChange }: Pr
       my="md"
     />
   )
+}
+
+GlobalFilter.propTypes = {
+  globalFilter: PropTypes.string.isRequired,
+  onGlobalFilterChange: PropTypes.func.isRequired
 }
