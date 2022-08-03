@@ -1,5 +1,5 @@
 {
-  "name": "mantine-datagrid",
+  "name": "@fabiendeborde/mantine-datagrid",
   "version": "0.1.0",
   "description": "A mantine wrapper around react-table",
   "engines": {
@@ -32,6 +32,9 @@
     "@babel/preset-env": "7.18.6",
     "@babel/preset-react": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
+    "@mantine/core": "^5.0.0",
+    "@mantine/dates": "^5.0.0",
+    "@mantine/hooks": "^5.0.0",
     "@rollup/plugin-commonjs": "22.0.1",
     "@rollup/plugin-node-resolve": "13.3.0",
     "@rollup/plugin-typescript": "8.3.3",
@@ -44,6 +47,7 @@
     "@typescript-eslint/parser": "5.30.6",
     "babel-jest": "28.1.3",
     "babel-loader": "8.2.5",
+    "dayjs": "1.11.4",
     "eslint": "8.19.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.26.0",
@@ -66,6 +70,7 @@
     "@mantine/core": "^5.0.0",
     "@mantine/dates": "^5.0.0",
     "@mantine/hooks": "^5.0.0",
+    "dayjs": "^1.11.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tabler-icons-react": ">=1.50.0"
