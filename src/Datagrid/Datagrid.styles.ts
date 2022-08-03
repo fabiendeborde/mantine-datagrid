@@ -6,8 +6,6 @@ type StyleProps = {
 }
 
 export default createStyles((theme, props?: StyleProps) => ({
-  table: {},
-  cell: {},
   row: {
     cursor: props?.rowClickHandler ? 'pointer' : 'inherit',
     '&:nth-of-type(odd)': {

@@ -1,4 +1,5 @@
 import { NumberInput, Select } from '@mantine/core'
+import PropTypes from 'prop-types'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 import { getOperatorSelectData } from './utils'
@@ -78,4 +79,9 @@ numberFilterFn.filterComponent = function ({ filterState, onFilterChange }: Data
       }
     </>
   )
+}
+
+numberFilterFn.filterComponent.propTypes = {
+  filterState: PropTypes.any.isRequired,
+  onFilterChange: PropTypes.func.isRequired
 }

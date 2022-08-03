@@ -75,7 +75,9 @@ export type DataGridProps<T> = {
   onPageChange?: (page: number) => void;
   /** Callback on page size change (with new page size) */
   onPageSizeChange?: (size: number) => void;
-  /** Enable global filter */
+  /** Enable global filter
+  * (not recommanded in manual mode, as the global will only work on current page)
+  * */
   withGlobalFilter?: boolean;
   /** If true every odd row of table will have gray background color */
   striped?: boolean;

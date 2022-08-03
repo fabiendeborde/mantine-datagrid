@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isBetween from 'dayjs/plugin/isBetween'
+import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
@@ -59,7 +60,6 @@ dateFilterFn.initialFilter = () => ({
   operator: DateFilter.GreaterThan,
   value: ''
 })
-
 dateFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGridFilterProps<Filter>) {
   const { classes } = useStyles({},
     {
@@ -112,4 +112,9 @@ dateFilterFn.filterComponent = function ({ filterState, onFilterChange }: DataGr
 
     </>
   )
+}
+
+dateFilterFn.filterComponent.propTypes = {
+  filterState: PropTypes.any.isRequired,
+  onFilterChange: PropTypes.func.isRequired
 }

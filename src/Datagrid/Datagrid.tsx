@@ -25,7 +25,6 @@ import PropTypes from 'prop-types'
 
 import { DataGridProps } from './Datagrid.types'
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from './Datagrid.constants'
-import useStyles from './Datagrid.styles'
 
 import GridHeader from './components/Header'
 import GridBody from './components/Body'
@@ -33,7 +32,6 @@ import Pagination from './components/Pagination'
 import GlobalFilter from './components/GlobalFilter'
 
 export function Datagrid<T> (props: DataGridProps<T>) {
-  const { classes } = useStyles({})
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -115,8 +113,6 @@ export function Datagrid<T> (props: DataGridProps<T>) {
       if (withPagination && !manualPagination) {
         const pagination = table.getState().pagination
         const nextPagination = functionalUpdate(arg0, pagination)
-        // console.debug('current pagination', pagination)
-        // console.debug('next pagination', nextPagination)
         if (nextPagination.pageIndex !== pagination.pageIndex || nextPagination.pageSize !== pagination.pageSize) {
           onPaginationChange && onPaginationChange(nextPagination)
           table.setState((state) => ({
@@ -152,8 +148,6 @@ export function Datagrid<T> (props: DataGridProps<T>) {
     }
     return currentState
   }, [gridState])
-
-  // console.log('state', state)
 
   const table = useReactTable<T>({
     data,
@@ -210,7 +204,7 @@ export function Datagrid<T> (props: DataGridProps<T>) {
       ref={paginationRef}
       pagination={table.getState().pagination}
       totalRows={paginationOptions?.rowsCount as number || table.getFilteredRowModel()?.rows?.length || 0}
-      totalPages={table.getPageCount()}
+      totalPages={paginationOptions?.pageCount || table.getPageCount() || 0}
       onPageChange={_handlePageChange}
       onSizeChange={_handlePageSizeChange}
       paginationOptions={paginationOptions}
@@ -240,7 +234,6 @@ export function Datagrid<T> (props: DataGridProps<T>) {
           horizontalSpacing={horizontalSpacing}
           verticalSpacing={verticalSpacing}
           fontSize={fontSize}
-          className={classes.table}
         >
           <GridHeader table={table} />
           <GridBody
@@ -273,11 +266,23 @@ Datagrid.propTypes = {
   withPagination: PropTypes.bool,
   withTopPagination: PropTypes.bool,
   paginationOptions: PropTypes.object,
+  paginationRef: PropTypes.object,
   withGlobalFilter: PropTypes.bool,
   striped: PropTypes.bool,
   highlightOnHover: PropTypes.bool,
   horizontalSpacing: PropTypes.string,
   verticalSpacing: PropTypes.string,
   fontSize: PropTypes.string,
-  paginationRef: PropTypes.object
+  withRowSelection: PropTypes.bool,
+  onRowSelection: PropTypes.func,
+  withVirtualizedRows: PropTypes.bool,
+  virtualizedRowOverscan: PropTypes.number,
+  onColumnFilterChange: PropTypes.func,
+  onSortingChange: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  gridState: PropTypes.shape({
+    pagination: PropTypes.object,
+    sorting: PropTypes.array,
+    columnFilters: PropTypes.array
+  })
 }

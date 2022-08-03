@@ -4,6 +4,7 @@ import {
   ArrowsDownUp,
   ArrowUp
 } from 'tabler-icons-react'
+import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
 
@@ -80,4 +81,10 @@ export default function HeaderCell<T> ({
       </Group>
     </th>
   )
+}
+
+HeaderCell.propTypes = {
+  index: PropTypes.number.isRequired,
+  header: PropTypes.object.isRequired,
+  isLastGroup: PropTypes.bool.isRequired
 }

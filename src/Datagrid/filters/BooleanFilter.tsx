@@ -1,4 +1,5 @@
 import { SegmentedControl, useMantineTheme } from '@mantine/core'
+import PropTypes from 'prop-types'
 
 import { DataGridFilterFn, DataGridFilterProps } from '../Datagrid.types'
 import { DEFAULT_BOOLEAN_FILTER_OPTIONS } from '../Datagrid.constants'
@@ -47,4 +48,9 @@ booleanFilterFn.filterComponent = function ({ filterState, onFilterChange }: Dat
       color={theme.primaryColor}
     />
   )
+}
+
+booleanFilterFn.filterComponent.propTypes = {
+  filterState: PropTypes.any.isRequired,
+  onFilterChange: PropTypes.func.isRequired
 }

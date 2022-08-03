@@ -10,6 +10,7 @@ import {
 } from '@mantine/core'
 import { Column, ColumnFilter } from '@tanstack/react-table'
 import { Filter as FilterIcon } from 'tabler-icons-react'
+import PropTypes from 'prop-types'
 
 import { DataGridFilterFn, FilterState } from '../Datagrid.types'
 import { isDataGridFilter } from '../filters/utils'
@@ -93,4 +94,8 @@ export function ColumnFilter<T> ({ column }: Props<T>) {
       </Menu.Dropdown>
     </Menu>
   )
+}
+
+ColumnFilter.propTypes = {
+  columns: PropTypes.object
 }

@@ -1,6 +1,7 @@
 // import { ReactNode } from 'react'
 import { Highlight, useMantineTheme } from '@mantine/core'
 import { Cell, flexRender } from '@tanstack/react-table'
+import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
 import { FilterState } from '../Datagrid.types'
@@ -23,7 +24,6 @@ export default function Cell<T> ({ cell }: Props<T>) {
       style={{
         width: cell.column.getSize()
       }}
-      className={classes.cell}
     >
       <span className={classes.slot}>
         {
@@ -41,4 +41,8 @@ export default function Cell<T> ({ cell }: Props<T>) {
       </span>
     </td>
   )
+}
+
+Cell.propTypes = {
+  cell: PropTypes.object.isRequired
 }
