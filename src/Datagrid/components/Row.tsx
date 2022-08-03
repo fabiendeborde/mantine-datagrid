@@ -1,6 +1,6 @@
+import { MouseEvent } from 'react'
 import { Row as TableRow } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
-import { MouseEvent } from 'react'
 
 import useStyles from '../Datagrid.styles'
 import { DataGridProps } from '../Datagrid.types'
