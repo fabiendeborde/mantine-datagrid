@@ -8,7 +8,7 @@ import {
   Stack,
   useMantineTheme
 } from '@mantine/core'
-import { Column, ColumnFilter } from '@tanstack/react-table'
+import { Column } from '@tanstack/react-table'
 import { Filter as FilterIcon } from 'tabler-icons-react'
 import PropTypes from 'prop-types'
 

@@ -1,13 +1,13 @@
 // import { ReactNode } from 'react'
 import { Highlight, useMantineTheme } from '@mantine/core'
-import { Cell, flexRender } from '@tanstack/react-table'
+import { Cell as TableCell, flexRender } from '@tanstack/react-table'
 import PropTypes from 'prop-types'
 
 import useStyles from '../Datagrid.styles'
 import { FilterState } from '../Datagrid.types'
 
 type Props<T> = {
-  cell: Cell<T, unknown>;
+  cell: TableCell<T, unknown>;
 };
 
 export default function Cell<T> ({ cell }: Props<T>) {
