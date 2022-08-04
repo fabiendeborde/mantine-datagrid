@@ -5,7 +5,7 @@
 
 A simple wrapper around React Table ([TanStack Table v8](https://tanstack.com/table/v8/docs/guide/introduction)) using [Mantine](https://mantine.dev/).
 
-This library requires the following packages: `@mantine/core`, `@mantine/hooks`, `tabler-icons-react` and it includes already this package: `@tanstack/react-table`
+This library requires the following packages: `@emotion/react`, `@mantine/core`, `@mantine/hooks`, `@mantine/dates` and it includes already these packages: `@tanstack/react-table`, `dayjs`, `react-virtual` and `tabler-icons-react`
 
 
 # Setup
