@@ -26,6 +26,8 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+      - run: npm run build
       - run: npm publish --@fabiendeborde:registry=https://registry.npmjs.org/ --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
@@ -40,6 +42,8 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           always-auth: true
+          cache: 'npm'
+      - run: npm run build
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
