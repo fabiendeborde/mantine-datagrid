@@ -35,7 +35,7 @@ function Row<T> ({ row, onRowClick }: Props<T>) {
 
 Row.propTypes = {
   row: PropTypes.object.isRequired,
-  onRowClick: PropTypes.func.isRequired
+  onRowClick: PropTypes.func
 }
 
 export default Row
