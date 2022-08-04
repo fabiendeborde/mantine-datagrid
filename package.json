@@ -1,6 +1,6 @@
 {
   "name": "@fabiendeborde/mantine-datagrid",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A mantine wrapper around react-table",
   "engines": {
     "node": ">=16"
@@ -25,6 +25,9 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/FabienDeborde",
     "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/FabienDeborde/mantine-datagrid/issues"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",

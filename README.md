@@ -19,3 +19,9 @@ yarn add  @fabiendeborde/mantine-datagrid
 
 # License
 Distributed under the ISC license. See [LICENSE](https://github.com/FabienDeborde/react-simple-qr-scanner/blob/master/LICENSE) for more information.
+
+# TODO
+[] update readme
+[] add tests
+[] add autocomplete in string filter (use mantine component, withAutocomplete props?)
+[] improve example project (use real API?)
