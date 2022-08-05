@@ -4,7 +4,7 @@ import { GroupPosition, MantineNumberSize, ScrollAreaProps } from '@mantine/core
 
 export type DataGridProps<T> = {
   /** Show a loader on loading */
-  loading: boolean;
+  loading?: boolean;
   /** Enable React Table debug logging */
   debug?: boolean;
   /** Table columns definitions */
@@ -71,10 +71,6 @@ export type DataGridProps<T> = {
   };
   /** Table pagination ref */
   paginationRef?: MutableRefObject<HTMLDivElement>;
-  /** Callback on page index change (with new page index) */
-  onPageChange?: (page: number) => void;
-  /** Callback on page size change (with new page size) */
-  onPageSizeChange?: (size: number) => void;
   /** Enable global filter
   * (not recommanded in manual mode, as the global will only work on current page)
   * */
