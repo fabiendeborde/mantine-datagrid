@@ -5,10 +5,13 @@
 
 A wrapper around React Table ([TanStack Table v8](https://tanstack.com/table/v8/docs/guide/introduction)) using [Mantine](https://mantine.dev/).
 
+**[DEMO PAGE](https://mantine-datagrid.netlify.app/)**
+
 This library requires the following packages: `@emotion/react`, `@mantine/core`, `@mantine/hooks`, `@mantine/dates` and it exposes this package: `@tanstack/react-table`.\
 It was heavily inspired by the work of Yannick Küchlin ([GitHub repository](https://github.com/Kuechlin/mantine-data-grid)) and Milan Jain([CodeSandbox](https://codesandbox.io/s/react-table-datagrid-eojw8)) from this [discussion](https://github.com/mantinedev/mantine/discussions/1057).
 
 I do not plan to really maintain or update this library except if it is needed by other private projects, but feel free to leave suggestions or bug reports, I'll try my best to check them as soon as I can.
+I strongly recommend to follow the work on this [repository](https://github.com/Kuechlin/mantine-data-grid) as it feels like the author is going to improve more and more his library.
 
 
 # Setup
